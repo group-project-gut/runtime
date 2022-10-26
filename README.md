@@ -12,7 +12,7 @@ Small runtime running users code in randomly generated environment. User can per
 
 ## Development
 
-The project is in very (very) early phase. These are milestones for version 0.1:
+#### version 0.1:
 
 - [X] Create basic classes for level, agents etc.
 - [X] Add game main loop.
