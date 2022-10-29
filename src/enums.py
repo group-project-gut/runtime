@@ -11,7 +11,7 @@ class Direction(Enum):
             return "UP"
         elif self == Direction.RIGHT:
             return "RIGHT"
-        elif self == Direction.RIGHT:
+        elif self == Direction.DOWN:
             return "DOWN"
-        elif self == Direction.RIGHT:
+        elif self == Direction.LEFT:
             return "LEFT"
