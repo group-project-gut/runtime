@@ -19,7 +19,7 @@ class Runtime:
         while spins < self.max_spins:
             exec(
                 self.agents_code,
-                agent_builtins,
+                {'__builtins__' : agent_builtins},
                 agent_locals,
             )
             #print(agent)
