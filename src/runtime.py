@@ -3,7 +3,7 @@ from .enums import Direction
 
 
 class Runtime:
-    max_spins: int = 128
+    max_spins: int = 8
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
