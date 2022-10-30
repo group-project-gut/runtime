@@ -1,14 +1,15 @@
-# LNX-runtime
+# lynx-runtime
 
-- [LNX-runtime](#lnx-runtime)
+- [lynx-runtime](#lynx-runtime)
   - [Architecture](#architecture)
   - [Development](#development)
+      - [version 0.1:](#version-01)
 
-Runtime responsible for creating games environment, running users code and returning the results through other microservices to LNX-frontend
+Runtime responsible for creating game's environment, running user's code and returning the results through other microservices to lynx-frontend.
 
 ## Architecture
 
-Small runtime running users code in randomly generated environment. User can perform specific `callbacks` in order to change state of the games world. Then, changes to the world are printed to `stdout` which is captured by `runner` microservice and passed further until it reaches frontend service which displays it in a visual environment.
+Small runtime running user's code in randomly generated environment. User can perform specific `callbacks` in order to change state of the game's world. Then, changes to the world are printed to `stdout` which is captured by `runner` microservice and passed further until it reaches frontend service which displays it in a visual environment.
 
 ## Development
 
@@ -16,4 +17,4 @@ Small runtime running users code in randomly generated environment. User can per
 
 - [X] Create basic classes for level, agents etc.
 - [X] Add game main loop.
-- [X] Users code execution inside `exec` using predefined `__builtins__`.
+- [X] User's code execution inside `exec` using predefined `__builtins__`.
