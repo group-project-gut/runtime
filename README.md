@@ -11,6 +11,11 @@ Runtime responsible for creating game's environment, running user's code and ret
 
 Small runtime running user's code in randomly generated environment. User can perform specific `callbacks` in order to change state of the game's world. Then, changes to the world are printed to `stdout` which is captured by `runner` microservice and passed further until it reaches frontend service which displays it in a visual environment.
 
+## Running in container
+In order to run `code.py` found inside `./usr` directory use:
+
+    podman run -v./usr/:/code:ro lynx-runtime:0.1
+
 ## Development
 
 #### version 0.1:
