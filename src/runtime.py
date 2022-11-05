@@ -9,18 +9,20 @@ class Runtime:
         self.agents_code: str = agents_code
 
     def run(self) -> None:
-        agent = Agent((0,0))
+        agent = Agent((0, 0))
         agent_locals = {}
         agent_builtins = {
             'move': agent.move,
             'Direction': Direction,
+            'len': len,
+            'range': range,
+            'enumerate': enumerate,
         }
         spins = 0
         while spins < self.max_spins:
             exec(
                 self.agents_code,
-                {'__builtins__' : agent_builtins},
+                {'__builtins__': agent_builtins},
                 agent_locals,
             )
-            #print(agent)
             spins += 1
