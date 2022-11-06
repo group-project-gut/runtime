@@ -8,9 +8,9 @@ from src.runtime import Runtime
 
 
 parser = argparse.ArgumentParser(
-    prog='LNX-Runtime',
-    description='Create game environment and run users code in it',
-    epilog='Owner: blazej.smorawski@gmail.com')
+                    prog = 'lynx-Runtime',
+                    description = 'Create game environment and run users code in it',
+                    epilog = 'Owner: blazej.smorawski@gmail.com')
 parser.add_argument('code_file_path')
 
 args = parser.parse_args()
