@@ -2,8 +2,10 @@
 
 # Main entrypoint of runtime microservice
 
-from src.runtime import Runtime
 import argparse
+
+from src.runtime import Runtime
+
 
 parser = argparse.ArgumentParser(
     prog='LNX-Runtime',

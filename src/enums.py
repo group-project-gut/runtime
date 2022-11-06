@@ -7,7 +7,7 @@ class Direction(Enum):
     DOWN = (0, -1)
     LEFT = (-1, 0)
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self == Direction.UP:
             return "UP"
         elif self == Direction.RIGHT:
