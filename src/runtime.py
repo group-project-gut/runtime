@@ -3,13 +3,13 @@ from .enums import Direction
 
 
 class Runtime:
-    max_spins: int = 8
+    MAX_SPINS: int = 8
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
 
     def run(self) -> None:
-        agent = Agent((0, 0))
+        agent = Agent()
         agent_locals = {}
         agent_builtins = {
             'move': agent.move,
@@ -19,7 +19,7 @@ class Runtime:
             'enumerate': enumerate,
         }
         spins = 0
-        while spins < self.max_spins:
+        while spins < self.MAX_SPINS:
             exec(
                 self.agents_code,
                 {'__builtins__': agent_builtins},
