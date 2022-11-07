@@ -1,6 +1,6 @@
 from .action import Action
-from .enums import Direction
-from .agent import Agent
+from src.common.enums import Direction
+from src.objects.agent import Agent
 
 
 class Move(Action):

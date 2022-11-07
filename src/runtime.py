@@ -1,7 +1,7 @@
-from .agent import Agent
-from .enums import Direction
-from .point import Point
-from .actions import Move
+from src.objects.agent import Agent
+from src.common.enums import Direction
+from src.common.point import Point
+from src.actions.move import Move
 
 
 class Runtime:

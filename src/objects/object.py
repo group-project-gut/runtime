@@ -1,5 +1,5 @@
-from .point import Point
-from .serializable import Serializable
+from src.common.point import Point
+from src.common.serializable import Serializable
 
 
 class Object(Serializable):

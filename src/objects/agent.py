@@ -1,8 +1,8 @@
 import operator
 
 from .object import Object
-from .enums import Direction
-from .point import Point
+from src.common.enums import Direction
+from src.common.point import Point
 
 
 class Agent(Object):

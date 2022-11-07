@@ -1,6 +1,6 @@
-from .object import Object
-from .agent import Agent
-from .serializable import Serializable
+from src.objects.object import Object
+from src.objects.agent import Agent
+from src.common.serializable import Serializable
 
 
 class Action(Serializable):
