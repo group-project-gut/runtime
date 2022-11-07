@@ -1,5 +1,7 @@
 from .agent import Agent
 from .enums import Direction
+from .point import Point
+from .actions import Move
 
 
 class Runtime:
@@ -12,7 +14,7 @@ class Runtime:
         agent = Agent()
         agent_locals = {}
         agent_builtins = {
-            'move': agent.move,
+            'move': lambda direction: Move(agent, direction).execute(),
             'Direction': Direction,
             'len': len,
             'range': range,
@@ -25,4 +27,5 @@ class Runtime:
                 {'__builtins__': agent_builtins},
                 agent_locals,
             )
+            print(agent)
             spins += 1
