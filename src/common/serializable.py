@@ -16,4 +16,4 @@ class Serializable():
         self.properties = Properties()
 
     def __str__(self) -> str:
-        return f"{{ \"base\" : {self.base}, \"type\" : {self.__class__.__name__}, \"properties\" : {json.dumps(self.properties.__dict__, default=str)} }}"
+        return f"{{ \"base_class_name\" : \"{self.base}\", \"class_name\" : \"{self.__class__.__name__}\", \"properties\" : {json.dumps(self.properties.__dict__, default=str)} }}"
