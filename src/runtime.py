@@ -19,13 +19,6 @@ class Runtime:
         '''
         
         scene: Scene = Scene()
-        # The abstraction is not the best here
-        # but I think it's much better than creating
-        # constructor taking an bool `log` or sth.
-        # It is necessary, because `Scene` constructor
-        # is called by `create_scene` action, so we
-        # always get a fresh scene whenever we want
-        scene.create.log()
 
         agent_locals = {}
         agent_builtins = {

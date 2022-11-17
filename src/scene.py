@@ -16,6 +16,20 @@ class Scene():
         self.objects_map = {}
         self.objects_dict = {}
         self.create: CreateScene = CreateScene()
+
+        # The abstraction is not the best here
+        # but I think it's much better than creating
+        # constructor taking an bool `log` or sth.
+        # It is necessary, because `Scene` constructor
+        # is called by `create_scene` action, so we
+        # always get a fresh scene whenever we want.
+        # How it works? If there isn't a variable `Player`
+        # it means that it's te first time `Scene` was
+        # constructed, so it has to be done manualy -
+        # - not through `scene.create.execute()`
+        if not hasattr(self,'_Scene__player'):
+            self.create.log()
+
         self.__player: Agent = Agent(self)
 
         # It's an example init sequence
