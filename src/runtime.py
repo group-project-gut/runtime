@@ -1,5 +1,6 @@
 from src.common.enums import Direction
 from src.actions.move import Move
+from src.common.exec_interrupt import ExecInterrupt
 from src.scene import Scene
 
 
@@ -17,7 +18,7 @@ class Runtime:
         The heart of the class is `exec` which defines the scope of `__builtins__`
         for user supplied code.
         '''
-        
+
         scene: Scene = Scene()
 
         agent_locals = {}
@@ -32,10 +33,14 @@ class Runtime:
         max_spins: int = 8
         spins = 0
         while spins < max_spins:
-            exec(
-                self.agents_code,
-                {'__builtins__': agent_builtins},
-                agent_locals,
-            )
+            try:
+                exec(
+                    self.agents_code,
+                    {'__builtins__': agent_builtins},
+                    agent_locals,
+                )
+            except ExecInterrupt:
+                    # Execution stopped
+                    pass
             #print(scene.get_player())
             spins += 1

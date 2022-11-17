@@ -1,3 +1,4 @@
+from src.common.exec_interrupt import ExecInterrupt
 from .object import Object
 from src.common.enums import Direction
 from src.common.point import Point
@@ -13,4 +14,5 @@ class Portal(Object):
 
     def on_collision(self, other) -> None:
         self.scene.create.execute(self.scene)
-        return super().on_collision(other)
+        # Stop execution flow of `exec`
+        raise ExecInterrupt
