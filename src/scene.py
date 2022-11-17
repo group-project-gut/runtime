@@ -11,10 +11,10 @@ class Scene():
         self.objects_count = 0
         self.objects_map = {}
         self.objects_dict = {}
+        self.create: CreateScene = CreateScene()
         self.__player: Agent = Agent(self)
-        self.__create: CreateScene = CreateScene()
-        
-        Portal(self, Point(0,1))
+
+        Portal(self, Point(0, 1))
         for x in range(5):
             for y in range(5):
                 Floor(self, Point(x, y))
@@ -32,5 +32,3 @@ class Scene():
             self.objects_map[new_object.properties.position].append(new_object)
         print(new_object)
 
-    def create(self) -> None:
-        self.__create.execute(self)

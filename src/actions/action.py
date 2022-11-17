@@ -7,6 +7,8 @@ class Action(Serializable):
     def __init__(self) -> None:
         super().__init__(__class__.__name__)
 
-    def execute(self) -> str:
+    def execute(self) -> None:
+        pass
+
+    def log(self) -> None:
         print(self)
-        return str(self)

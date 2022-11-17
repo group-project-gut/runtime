@@ -10,6 +10,8 @@ class Runtime:
 
     def run(self) -> None:
         scene: Scene = Scene()
+        # The abstraction is not the best here
+        scene.create.log()
 
         agent_locals = {}
         agent_builtins = {
@@ -28,5 +30,5 @@ class Runtime:
                 {'__builtins__': agent_builtins},
                 agent_locals,
             )
-            print(scene.get_player())
+            #print(scene.get_player())
             spins += 1

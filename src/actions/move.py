@@ -13,15 +13,15 @@ class Move(Action):
         self.properties.direction: Direction = direction
 
     def execute(self, scene: Scene) -> str:
-        new_position: Point = self.agent.properties.position + self.properties.direction.value
+        new_position: Point = self.agent.properties.position + \
+            self.properties.direction.value
         if scene[new_position] is not None and scene[new_position][0].walkable:
             scene[self.agent.properties.position].remove(self.agent)
             scene[new_position].append(self.agent)
             self.agent.properties.position = new_position
-
-            ret = super().execute()
+            
+            self.log()
 
             for collision_object in scene[new_position]:
                 collision_object.on_collision(self.agent)
 
-            return ret

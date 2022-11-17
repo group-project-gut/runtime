@@ -9,8 +9,6 @@ class CreateScene(Action):
         super().__init__()
 
     def execute(self, scene) -> str:
-        ret = super().execute()
-
+        self.log()
         scene.__init__()
-        
-        return ret
+
