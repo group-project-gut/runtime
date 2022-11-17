@@ -7,7 +7,9 @@ from src.objects.agent import Agent
 
 class Move(Action):
     def __init__(self, agent: Agent, direction: Direction) -> None:
-        super().__init__(agent.properties.id, agent.properties.id)
+        super().__init__()
+        self.properties.agent_id = agent.properties.id
+        self.agent: Agent = agent
         self.properties.direction: Direction = direction
 
     def execute(self, scene: Scene) -> str:
@@ -16,4 +18,10 @@ class Move(Action):
             scene[self.agent.properties.position].remove(self.agent)
             scene[new_position].append(self.agent)
             self.agent.properties.position = new_position
-            return super().execute()
+
+            ret = super().execute()
+
+            for collision_object in scene[new_position]:
+                collision_object.on_collision(self.agent)
+
+            return ret

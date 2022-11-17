@@ -1,34 +1,32 @@
-from src.objects.agent import Agent
 from src.common.enums import Direction
-from src.common.point import Point
 from src.actions.move import Move
-from src.objects.floor import Floor
 from src.scene import Scene
 
 
 class Runtime:
-    MAX_SPINS: int = 8
-    scene: Scene = Scene()
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
 
     def run(self) -> None:
-        agent = Agent(Runtime.scene)
+        scene: Scene = Scene()
+
         agent_locals = {}
         agent_builtins = {
-            'move': lambda direction: Move(agent, direction).execute(Runtime.scene),
+            'move': lambda direction: Move(scene.get_player(), direction).execute(scene),
             'Direction': Direction,
             'len': len,
             'range': range,
             'enumerate': enumerate,
         }
+
+        max_spins: int = 8
         spins = 0
-        while spins < self.MAX_SPINS:
+        while spins < max_spins:
             exec(
                 self.agents_code,
                 {'__builtins__': agent_builtins},
                 agent_locals,
             )
-            #print(agent)
+            print(scene.get_player())
             spins += 1
