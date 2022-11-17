@@ -3,6 +3,10 @@ from .point import Point
 
 
 class Direction(Enum):
+    '''
+    Enumeration representing global directions
+    '''
+    
     UP = Point(0, 1)
     RIGHT = Point(1, 0)
     DOWN = Point(0, -1)

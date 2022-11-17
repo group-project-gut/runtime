@@ -3,6 +3,10 @@ from src.common.serializable import Serializable
 
 
 class Object(Serializable):
+    '''
+    Abstract object existing in a `scene`. Represents part of scene's state,
+    in contrast to `Action` which represents only modifications of the state.
+    '''
 
     def __init__(self, position: Point, scene) -> None:
         super().__init__(__class__.__name__)
@@ -15,5 +19,11 @@ class Object(Serializable):
         scene.objects_dict[self.properties.id] = self
         scene.objects_count += 1
 
+        # Log creation of the `Object`
+        print(self)
+
     def on_collision(self, other) -> None:
-        pass
+        '''
+        This method is called when other `Object` enters
+        the `field` this object is on.
+        '''

@@ -4,13 +4,27 @@ from src.scene import Scene
 
 
 class Runtime:
+    '''
+    Supplies basic execution of users code across various levels.
+    '''
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
 
     def run(self) -> None:
+        '''
+        Generates a new scene and runs users code for a limited number of spins.
+        The heart of the class is `exec` which defines the scope of `__builtins__`
+        for user supplied code.
+        '''
+        
         scene: Scene = Scene()
         # The abstraction is not the best here
+        # but I think it's much better than creating
+        # constructor taking an bool `log` or sth.
+        # It is necessary, because `Scene` constructor
+        # is called by `create_scene` action, so we
+        # always get a fresh scene whenever we want
         scene.create.log()
 
         agent_locals = {}

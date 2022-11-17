@@ -1,16 +1,23 @@
 import json
 
-# Properties is an empty class
-# used by objects inheriting from Serialzable
-# to store variables that will be serialized
-
 
 class Properties:
+    '''
+    Properties is an empty class
+    used by objects inheriting from Serialzable
+    to store variables that will be serialized
+    '''
+
     def __init__(self) -> None:
         pass
 
 
 class Serializable():
+    '''
+    Represents an abstract class which can be converted to `str` and return
+    string in format that can be easily deserialized by various frontends.
+    '''
+
     def __init__(self, base: str) -> None:
         self.base = base
         self.properties = Properties()
