@@ -2,19 +2,22 @@ from src.objects.agent import Agent
 from src.common.enums import Direction
 from src.common.point import Point
 from src.actions.move import Move
+from src.objects.floor import Floor
+from src.scene import Scene
 
 
 class Runtime:
     MAX_SPINS: int = 8
+    scene: Scene = Scene()
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
 
     def run(self) -> None:
-        agent = Agent()
+        agent = Agent(Runtime.scene)
         agent_locals = {}
         agent_builtins = {
-            'move': lambda direction: Move(agent, direction).execute(),
+            'move': lambda direction: Move(agent, direction).execute(Runtime.scene),
             'Direction': Direction,
             'len': len,
             'range': range,
@@ -27,5 +30,5 @@ class Runtime:
                 {'__builtins__': agent_builtins},
                 agent_locals,
             )
-            print(agent)
+            #print(agent)
             spins += 1
