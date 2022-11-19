@@ -1,3 +1,4 @@
+from src.actions.next_scene import NextScene
 from src.common.enums import Direction
 from src.actions.move import Move
 from src.common.exec_interrupt import ExecInterrupt
@@ -11,36 +12,24 @@ class Runtime:
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
+        self.scene: Scene = None
+        self.scenes = []
+        self.next_scene = NextScene(self)
 
-    def run(self) -> None:
+    def run(self):
         '''
-        Generates a new scene and runs users code for a limited number of spins.
-        The heart of the class is `exec` which defines the scope of `__builtins__`
-        for user supplied code.
+        Run scenes as longs as during scene's run
+        a next scene is called. `ExecInterrupt` is
+        raised when player finishes a scene and reaches
+        a portal.
         '''
-
-        scene: Scene = Scene()
-
-        agent_locals = {}
-        agent_builtins = {
-            'move': lambda direction: Move(scene.get_player(), direction).execute(scene),
-            'Direction': Direction,
-            'len': len,
-            'range': range,
-            'enumerate': enumerate,
-        }
-
-        max_spins: int = 8
-        spins = 0
-        while spins < max_spins:
+        self.next_scene.execute()
+        max_scenes: int = 8
+        scenes: int = 0
+        while scenes < max_scenes:
             try:
-                exec(
-                    self.agents_code,
-                    {'__builtins__': agent_builtins},
-                    agent_locals,
-                )
+                scenes += 1
+                self.scene.run()
             except ExecInterrupt:
-                    # Execution stopped
-                    pass
-            #print(scene.get_player())
-            spins += 1
+                # Execution stopped
+                pass

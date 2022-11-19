@@ -22,6 +22,11 @@ class Object(Serializable):
         # Log creation of the `Object`
         print(self)
 
+    def tick(self) -> None:
+        '''
+        Called every turn of the object to perform actions
+        '''
+
     def on_collision(self, other) -> None:
         '''
         This method is called when other `Object` enters

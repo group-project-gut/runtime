@@ -1,4 +1,3 @@
-from src.actions.create_scene import CreateScene
 from src.common.point import Point
 from src.objects.agent import Agent
 from src.objects.floor import Floor
@@ -11,25 +10,13 @@ class Scene():
     Object representing one level in the game.
     It is responsible for storing all instances of `Object` class.
     '''
-    def __init__(self) -> None:
+
+    def __init__(self, runtime) -> None:
         self.objects_count = 0
-        self.objects_map = {}
-        self.objects_dict = {}
-        self.create: CreateScene = CreateScene()
-
-        # The abstraction is not the best here
-        # but I think it's much better than creating
-        # constructor taking an bool `log` or sth.
-        # It is necessary, because `Scene` constructor
-        # is called by `create_scene` action, so we
-        # always get a fresh scene whenever we want.
-        # How it works? If there isn't a variable `Player`
-        # it means that it's te first time `Scene` was
-        # constructed, so it has to be done manualy -
-        # - not through `scene.create.execute()`
-        if not hasattr(self,'_Scene__player'):
-            self.create.log()
-
+        self.objects_map = {}  # Point : [Object] Field
+        self.objects_dict = {}  # ID : Object
+        self.agent_locals = {}
+        self.runtime = runtime
         self.__player: Agent = Agent(self)
 
         # It's an example init sequence
@@ -41,6 +28,17 @@ class Scene():
 
     def __getitem__(self, indices) -> Object:
         return self.objects_map.get(indices)
+
+    def run(self):
+        '''
+        TODO
+        '''
+        max_spins: int = 8
+        spins: int = 0
+        while spins < max_spins:
+            spins += 1
+            for scene_object in list(self.objects_dict.values()):
+                scene_object.tick()
 
     def get_player(self):
         '''

@@ -1,19 +1,22 @@
-from src.objects.portal import Portal
-from src.objects.floor import Floor
+from src.scene import Scene
 from .action import Action
-from src.common.point import Point
 
 
-class CreateScene(Action):
+class NextScene(Action):
     '''
     `Action` used to create next scene. Called on collision by `Portal`.
     '''
 
-    def execute(self, scene) -> str:
+    def __init__(self, runtime) -> None:
+        super().__init__()
+        self.runtime = runtime
+
+    def execute(self) -> None:
         '''
         The execution of this `Action` is quite problematic, because
         it uses EXISTING instance of scene and calls it's constructor
         once again. Subject to futher refactoring.
         '''
         self.log()
-        scene.__init__()
+        self.runtime.scene = Scene(self.runtime)
+        self.runtime.scenes.append(self.runtime.scene)

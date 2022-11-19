@@ -1,7 +1,5 @@
-from src.scene import Scene
 from src.common.enums import Direction
 from src.common.point import Point
-from src.objects.agent import Agent
 from .action import Action
 
 
@@ -11,13 +9,13 @@ class Move(Action):
     in case the movement was not possible(destination is not walkable etc).
     '''
 
-    def __init__(self, agent: Agent, direction: Direction) -> None:
+    def __init__(self, agent, direction: Direction) -> None:
         super().__init__()
         self.properties.agent_id = agent.properties.id
-        self.agent: Agent = agent
+        self.agent = agent
         self.properties.direction: Direction = direction
 
-    def execute(self, scene: Scene) -> str:
+    def execute(self, scene) -> str:
         new_position: Point = self.agent.properties.position + \
             self.properties.direction.value
 
