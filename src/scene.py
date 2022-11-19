@@ -1,3 +1,4 @@
+import random
 from src.common.point import Point
 from src.objects.agent import Agent
 from src.objects.floor import Floor
@@ -21,7 +22,7 @@ class Scene():
 
         # It's an example init sequence
         # called each time the player goes through a portal
-        Portal(self, Point(0, 1))
+        Portal(self, Point(random.randint(1,4), random.randint(1,4)))
         for x in range(5):
             for y in range(5):
                 Floor(self, Point(x, y))
