@@ -20,12 +20,31 @@ class Scene():
         self.runtime = runtime
         self.__player: Agent = Agent(self)
 
-        # It's an example init sequence
-        # called each time the player goes through a portal
-        Portal(self, Point(random.randint(1,4), random.randint(1,4)))
-        for x in range(5):
-            for y in range(5):
-                Floor(self, Point(x, y))
+        self._generate_scene()
+
+    def _generate_scene(self):
+        '''
+        For now it'll generate scene layout
+        Subject to be changed
+        '''
+        STEPS = 20
+        pos = Point(0, 0)
+        points = []
+        points.append(pos)
+        for _ in range(STEPS):
+            pos += Point(random.choice([-1, 0, 1]), random.choice([-1, 0, 1]))
+            points.append(pos)
+            points.append(pos + Point(-1, 0))
+            points.append(pos + Point(1, 0))
+            points.append(pos + Point(0, -1))
+            points.append(pos + Point(0, 1))
+        
+        points = list(dict.fromkeys(points)) # remove duplicates
+
+        for point in points:
+            Floor(self, point)
+
+        Portal(self, random.choice(points))        
 
     def __getitem__(self, indices) -> Object:
         return self.objects_map.get(indices)
