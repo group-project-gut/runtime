@@ -20,6 +20,11 @@ User can perform specific `callbacks` in order to change state of the game's wor
 Changes to the world are printed to `stdout` which is captured by `runner` microservice and passed further until it reaches frontend service which displays it in a visual environment.
 ## Setup
     pip install requirements.txt
+To `autopep8` hook for `pre-commit` use:
+
+    python -m pip install autopep8 pre-commit
+    pre-commit install
+
 ## Building container image
 ### Podman
     podman build . -t lynx-runtime:<version>
