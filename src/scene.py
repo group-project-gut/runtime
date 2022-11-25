@@ -39,12 +39,12 @@ class Scene():
             points.append(pos + Point(0, -1))
             points.append(pos + Point(0, 1))
 
-        points = list(dict.fromkeys(points)) # remove duplicates
+        points = list(dict.fromkeys(points))  # remove duplicates
 
         for point in points:
             Floor(self, point)
 
-        Portal(self, random.choice(points))        
+        Portal(self, random.choice(points))
 
     def __getitem__(self, indices) -> Object:
         return self.objects_map.get(indices)
