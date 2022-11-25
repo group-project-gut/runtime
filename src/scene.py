@@ -38,7 +38,7 @@ class Scene():
             points.append(pos + Point(1, 0))
             points.append(pos + Point(0, -1))
             points.append(pos + Point(0, 1))
-        
+
         points = list(dict.fromkeys(points)) # remove duplicates
 
         for point in points:
@@ -71,6 +71,29 @@ class Scene():
         reference to agent in a previous scene
         '''
         return self.__player
+
+    def move_object(self, moved_object: Object, new_position: Point) -> bool:
+        '''
+        Returns True on successful `move` operation
+        '''
+
+        # Check if the destination is a `field` in the scene, and if it is -
+        # - it must be walkable
+        if self[new_position] is None or self[new_position][0].walkable is False:
+            return False
+
+        self[moved_object.properties.position].remove(moved_object)
+        self[new_position].append(moved_object)
+        moved_object.properties.position = new_position
+        return True
+
+    def check_collisions(self, entering_object: Object) -> None:
+        '''
+        Call `on_collision` callback of every Object in the same
+        field as `entering_object`.
+        '''
+        for collision_object in self[entering_object.properties.position]:
+            collision_object.on_collision(entering_object)
 
     def add_object_to_map(self, new_object: Object) -> None:
         '''

@@ -19,17 +19,11 @@ class Move(Action):
         new_position: Point = self.agent.properties.position + \
             self.properties.direction.value
 
-        # Check if the destination is a `field` in the scene, and if it is -
-        # - it must be walkable
-        if scene[new_position] is not None and scene[new_position][0].walkable:
-            scene[self.agent.properties.position].remove(self.agent)
-            scene[new_position].append(self.agent)
-            self.agent.properties.position = new_position
+        scene.move_object(self.agent, new_position)
 
-            # Logging happens before collision detection
-            # because it may result in loading next scene,
-            # so we must ensure proper order of logs.
-            self.log()
+        # Logging happens before collision detection
+        # because it may result in loading next scene,
+        # so we must ensure proper order of logs.
+        self.log()
 
-            for collision_object in scene[new_position]:
-                collision_object.on_collision(self.agent)
+        scene.check_collisions(self.agent)
