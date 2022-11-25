@@ -1,7 +1,5 @@
 from src.actions.next_scene import NextScene
-from src.common.enums import Direction
-from src.actions.move import Move
-from src.common.exec_interrupt import ExecInterrupt
+from src.common.exec_interrupt import MapExit
 from src.scene import Scene
 
 
@@ -19,7 +17,7 @@ class Runtime:
     def run(self):
         '''
         Run scenes as longs as during scene's run
-        a next scene is called. `ExecInterrupt` is
+        a next scene is called. `MapExit` is
         raised when player finishes a scene and reaches
         a portal.
         '''
@@ -30,6 +28,6 @@ class Runtime:
             try:
                 scenes += 1
                 self.scene.run()
-            except ExecInterrupt:
+            except MapExit:
                 # Execution stopped
                 pass

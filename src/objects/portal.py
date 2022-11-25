@@ -1,4 +1,4 @@
-from src.common.exec_interrupt import ExecInterrupt
+from src.common.exec_interrupt import MapExit
 from src.common.point import Point
 from .object import Object
 
@@ -15,4 +15,4 @@ class Portal(Object):
     def on_collision(self, other) -> None:
         self.scene.runtime.next_scene.execute()
         # Stop execution flow of `exec`
-        raise ExecInterrupt
+        raise MapExit
