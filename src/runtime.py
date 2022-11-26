@@ -1,31 +1,33 @@
-from src.objects.agent import Agent
-from src.common.enums import Direction
-from src.common.point import Point
-from src.actions.move import Move
+from src.actions.next_scene import NextScene
+from src.common.exec_interrupt import MapExit
+from src.scene import Scene
 
 
 class Runtime:
-    MAX_SPINS: int = 8
+    '''
+    Supplies basic execution of users code across various levels.
+    '''
 
     def __init__(self, agents_code: str) -> None:
         self.agents_code: str = agents_code
+        self.scene: Scene = None
+        self.scenes = []
+        self.next_scene = NextScene(self)
 
-    def run(self) -> None:
-        agent = Agent()
-        agent_locals = {}
-        agent_builtins = {
-            'move': lambda direction: Move(agent, direction).execute(),
-            'Direction': Direction,
-            'len': len,
-            'range': range,
-            'enumerate': enumerate,
-        }
-        spins = 0
-        while spins < self.MAX_SPINS:
-            exec(
-                self.agents_code,
-                {'__builtins__': agent_builtins},
-                agent_locals,
-            )
-            print(agent)
-            spins += 1
+    def run(self):
+        '''
+        Run scenes as longs as during scene's run
+        a next scene is called. `MapExit` is
+        raised when player finishes a scene and reaches
+        a portal.
+        '''
+        self.next_scene.execute()
+        max_scenes: int = 8
+        scenes: int = 0
+        while scenes < max_scenes:
+            try:
+                scenes += 1
+                self.scene.run()
+            except MapExit:
+                # Execution stopped
+                pass

@@ -3,13 +3,32 @@ from src.common.serializable import Serializable
 
 
 class Object(Serializable):
-    __objects_count: int = 0
-    objects_dict = {}  # An empty object
+    '''
+    Abstract object existing in a `scene`. Represents part of scene's state,
+    in contrast to `Action` which represents only modifications of the state.
+    '''
 
-    def __init__(self, position) -> None:
+    def __init__(self, position: Point, scene) -> None:
         super().__init__(__class__.__name__)
-        self.properties.id: int = Object.__objects_count
+        self.properties.id: int = scene.objects_count
         self.properties.position: Point = position
+        self.scene = scene
+        self.walkable = False
 
-        Object.objects_dict[self.properties.id] = self
-        Object.__objects_count += 1
+        scene.add_object_to_map(self)
+        scene.objects_dict[self.properties.id] = self
+        scene.objects_count += 1
+
+        # Log creation of the `Object`
+        print(self)
+
+    def tick(self) -> None:
+        '''
+        Called every turn of the object to perform actions
+        '''
+
+    def on_collision(self, other) -> None:
+        '''
+        This method is called when other `Object` enters
+        the `field` this object is on.
+        '''

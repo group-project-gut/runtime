@@ -1,16 +1,24 @@
-from src.objects.object import Object
-from src.objects.agent import Agent
 from src.common.serializable import Serializable
 
 
 class Action(Serializable):
-    def __init__(self, agent_id: int, target_id: int) -> None:
-        super().__init__(__class__.__name__)
-        self.properties.agent_id = agent_id
-        self.properties.target_id = target_id
-        self.agent: Agent = Object.objects_dict[agent_id]
-        self.target: Agent = Object.objects_dict[target_id]
+    '''
+    Represents abstract object responsible for interacting
+    with a `scene`.
+    '''
 
-    def execute(self) -> str:
+    def __init__(self) -> None:
+        super().__init__(__class__.__name__)
+
+    def execute(self, scene) -> None:
+        '''
+        Method used to change state of a `scene` or `runtime`
+        '''
+
+    def log(self) -> None:
+        '''
+        Simple method logging `Action`, so frontend applications
+        can modify visible state of the scene on their own.
+        This method should not modify state of the scene.
+        '''
         print(self)
-        return str(self)
