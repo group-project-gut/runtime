@@ -1,11 +1,11 @@
 from enum import Enum
-from .point import Point
+from src.common.point import Point
 
 
 class Direction(Enum):
-    '''
+    """
     Enumeration representing global directions
-    '''
+    """
 
     UP = Point(0, 1)
     RIGHT = Point(1, 0)
