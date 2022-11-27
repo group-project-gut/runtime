@@ -2,13 +2,15 @@ import math
 
 
 class Point:
-    '''
+    """
     Class representing 2D point
-    '''
+    """
+    x: int
+    y: int
 
     def __init__(self, x: int, y: int) -> None:
-        self.x: int = x
-        self.y: int = y
+        self.x = x
+        self.y = y
 
     # xxxXXXxxx WAAAAAAAAAARRRRRNINGGGGGGGG xxxXXXxxx
     # Position is passed to properties as string,
@@ -29,8 +31,6 @@ class Point:
         return (self.x, self.y) == (other.x, other.y)
 
     def dist_to(self, point) -> float:
-        '''
-        Euclidean distance from `self` to `point`
-        '''
+        # Euclidean distance from `self` to `point`
         dist: float = math.sqrt((self.x - point.x)**2 + (self.y - point.y)**2)
         return dist

@@ -1,23 +1,26 @@
 from src.common.enums import Direction
 from src.common.point import Point
-from .action import Action
+from src.actions.action import Action
+from src.common.serializable import Properties
 
 
 class Move(Action):
-    '''
+    """
     Simple action for changing position of `Agent`. It does not log anything
     in case the movement was not possible(destination is not walkable etc).
-    '''
+    """
+    base: str
+    properties: Properties
+    agent: 'Agent'
 
-    def __init__(self, agent, direction: Direction) -> None:
+    def __init__(self, agent: 'Agent', direction: Direction) -> None:
         super().__init__()
         self.properties.agent_id = agent.properties.id
         self.agent = agent
-        self.properties.direction: Direction = direction
+        self.properties.direction = direction
 
-    def execute(self, scene) -> str:
-        new_position: Point = self.agent.properties.position + \
-            self.properties.direction.value
+    def execute(self, scene) -> None:
+        new_position: Point = self.agent.properties.position + self.properties.direction.value
 
         scene.move_object(self.agent, new_position)
 
