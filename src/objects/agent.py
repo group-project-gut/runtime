@@ -1,4 +1,5 @@
 from src.actions.move import Move
+from src.actions.wave import Wave
 from src.common.enums import Direction
 from src.common.point import Point
 from src.objects.object import Object
@@ -23,6 +24,7 @@ class Agent(Object):
         """
         agent_builtins = {
             'move': lambda direction: Move(self, direction).execute(),
+            'wave': Wave(self).execute,
             'Direction': Direction,
             'len': len,
             'range': range,
