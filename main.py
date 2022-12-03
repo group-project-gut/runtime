@@ -12,11 +12,10 @@ parser = argparse.ArgumentParser(
     description='Create game environment and run users code in it',
     epilog='Owner: blazej.smorawski@gmail.com')
 parser.add_argument('code_file_path')
+parser.add_argument('--interactive', '-i', action='store_true')
 
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    with open(args.code_file_path, 'r') as code_file:
-        code = code_file.read()
-        runtime = Runtime(code)
-        runtime.run()
+    runtime = Runtime(args.code_file_path, args.interactive)
+    runtime.run()
