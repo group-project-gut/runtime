@@ -5,6 +5,9 @@ from transitions import Machine, State
 from src.common.point import Point
 from src.objects.object import Object
 from src.common.serializable import Properties
+from src.actions.move import Move
+from src.actions.idle import Idle
+from src.common.enums import Direction
 
 
 class NPC(Object):
@@ -25,15 +28,10 @@ class NPC(Object):
         self.machine.add_ordered_transitions(loop=True)
 
     def move(self):
-        neighboring_points = [self.properties.position + Point(1, 0), self.properties.position + Point(-1, 0),
-                              self.properties.position + Point(0, 1),
-                              self.properties.position + Point(0, -1)]
-        walkable_fields = [point for point in neighboring_points if self.scene.is_walkable_field(point)]
-        if walkable_fields:
-            self.scene.move_object(self, random.choice(walkable_fields))
+        Move(self, random.choice(list(Direction))).execute()
 
     def idle(self):
-        pass
+        Idle(self).execute()
 
     def tick(self) -> None:
         """

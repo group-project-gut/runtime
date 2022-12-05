@@ -12,7 +12,7 @@ class Action(Serializable):
     def __init__(self) -> None:
         super().__init__(__class__.__name__)
 
-    def execute(self, scene) -> None:
+    def execute(self) -> None:
         """
         Method used to change state of a `scene` or `runtime`
         """

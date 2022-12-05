@@ -22,10 +22,7 @@ class Agent(Object):
         Called on an `Object`, so it can perform some actions
         """
         agent_builtins = {
-            'move': lambda direction: Move(
-                self,
-                direction).execute(
-                self.scene),
+            'move': lambda direction: Move(self, direction).execute(),
             'Direction': Direction,
             'len': len,
             'range': range,
