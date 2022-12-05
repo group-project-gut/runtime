@@ -6,6 +6,7 @@ from src.objects.agent import Agent
 from src.objects.floor import Floor
 from src.objects.portal import Portal
 from src.objects.object import Object
+from src.objects.npcs.enemy import Enemy
 
 
 class Scene:
@@ -52,6 +53,7 @@ class Scene:
             Floor(self, point)
 
         Portal(self, random.choice(points))
+        Enemy(self, random.choice(points))
 
     def __getitem__(self, indices) -> Object:
         return self.objects_map.get(indices)
@@ -86,13 +88,16 @@ class Scene:
 
         # Check if the destination is a `field` in the scene, and if it is -
         # - it must be walkable
-        if self[new_position] is None or self[new_position][0].walkable is False:
+        if not self.is_walkable_field(new_position):
             return False
 
         self[moved_object.properties.position].remove(moved_object)
         self[new_position].append(moved_object)
         moved_object.properties.position = new_position
         return True
+
+    def is_walkable_field(self, position: Point):
+        return self[position] and self[position][0].walkable
 
     def check_collisions(self, entering_object: Object) -> None:
         """
