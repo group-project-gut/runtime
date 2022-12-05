@@ -105,7 +105,8 @@ class Scene:
         field as `entering_object`.
         """
         for collision_object in self[entering_object.properties.position]:
-            collision_object.on_collision(entering_object)
+            if collision_object != entering_object:
+                collision_object.on_collision(entering_object)
 
     def add_object_to_map(self, new_object: Object) -> None:
         """
