@@ -38,3 +38,5 @@ class Runtime:
             except MapExit:
                 # Execution stopped
                 pass
+            except Exception:
+                self.next_scene.execute()
