@@ -23,7 +23,7 @@ class Move(Action):
     def execute(self) -> None:
         new_position: Point = self.object.properties.position + self.properties.direction.value
 
-        if not scene.move_object(self.agent, new_position):
+        if not self.object.scene.move_object(self.object, new_position):
             return
 
         # Logging happens before collision detection
