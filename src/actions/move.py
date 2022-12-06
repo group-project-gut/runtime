@@ -2,6 +2,7 @@ from src.common.enums import Direction
 from src.common.point import Point
 from src.actions.action import Action
 from src.common.serializable import Properties
+from src.objects.object import Object
 
 
 class Move(Action):
@@ -11,22 +12,22 @@ class Move(Action):
     """
     base: str
     properties: Properties
-    agent: 'Agent'
+    object: Object
 
-    def __init__(self, agent: 'Agent', direction: Direction) -> None:
+    def __init__(self, object: Object, direction: Direction) -> None:
         super().__init__()
-        self.properties.agent_id = agent.properties.id
-        self.agent = agent
+        self.properties.object_id = object.properties.id
+        self.object = object
         self.properties.direction = direction
 
-    def execute(self, scene) -> None:
-        new_position: Point = self.agent.properties.position + self.properties.direction.value
+    def execute(self) -> None:
+        new_position: Point = self.object.properties.position + self.properties.direction.value
 
-        scene.move_object(self.agent, new_position)
+        self.object.scene.move_object(self.object, new_position)
 
         # Logging happens before collision detection
         # because it may result in loading next scene,
         # so we must ensure proper order of logs.
         self.log()
 
-        scene.check_collisions(self.agent)
+        self.object.scene.check_collisions(self.object)

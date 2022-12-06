@@ -15,7 +15,7 @@ class NextScene(Action):
         super().__init__()
         self.runtime = runtime
 
-    def execute(self, scene=None) -> None:
+    def execute(self) -> None:
         """
         The execution of this `Action` is quite problematic, because
         it uses EXISTING instance of scene and calls its constructor
