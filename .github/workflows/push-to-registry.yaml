@@ -6,9 +6,7 @@ name: Build and publish the container image
 "on":
   push:
     tags:
-      - '*'
-    branches:
-      - 'master'
+      - '[0-9]+.[0-9]+[abcde]'
 
 jobs:
   build-and-push-image:
