@@ -1,7 +1,8 @@
+from src.common.exec_interrupt import MapExit
 from src.actions.use import Use
 from src.actions.move import Move
 from src.actions.nearby_objects import NearbyObjects
-#from src.actions.pick_up import PickUp
+# from src.actions.pick_up import PickUp
 from src.actions.wave import Wave
 from src.actions.attacks.slash import Slash
 from src.common.enums import Direction
@@ -60,3 +61,8 @@ class Agent(Object):
             {'__builtins__': agent_builtins},
             self.scene.agent_locals,
         )
+
+    def die(self):
+        self.scene.runtime.next_scene.execute()
+        # Stop execution flow of `exec`
+        raise MapExit

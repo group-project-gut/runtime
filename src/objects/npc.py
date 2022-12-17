@@ -31,3 +31,6 @@ class NPC(Object):
 
     def idle(self):
         Idle(self).execute()
+
+    def die(self):
+        self.scene.remove_object_from_map(self)

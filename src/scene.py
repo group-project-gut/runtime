@@ -41,8 +41,8 @@ class Scene:
         for point in points:
             Floor(self, point)
 
-        #Portal(self, random.choice(points))
-        #TrainingDummy(self, Point(1, 0))
+        # Portal(self, random.choice(points))
+        # TrainingDummy(self, Point(1, 0))
 
     def _generate_scene(self):
         """
@@ -144,3 +144,11 @@ class Scene:
         Add object to per scene storage indexed by objects `id`.
         """
         self._objects_id_map[new_object.properties.id] = new_object
+
+    def remove_object_from_map(self, object_to_be_removed: Object):
+        self.objects_count -= 1
+        self.objects_map[object_to_be_removed.properties.position].remove(object_to_be_removed)
+        for index, object in self.objects_dict.items():
+            if object == object_to_be_removed:
+                del self.objects_dict[index]
+                break
