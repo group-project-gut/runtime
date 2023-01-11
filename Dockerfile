@@ -9,4 +9,6 @@ COPY "src" "/runtime/src"
 
 RUN pip install -r /runtime/requirements.txt
 
+WORKDIR /runtime
+
 ENTRYPOINT [ "/runtime/main.py" ]
