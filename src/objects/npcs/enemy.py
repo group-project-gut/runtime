@@ -10,8 +10,8 @@ class Enemy(NPC):
     scene: 'Scene'
     walkable: bool
 
-    def __init__(self, scene: 'Scene', position: Point) -> None:
-        super().__init__(scene, position)
+    def __init__(self, scene: 'Scene', position: Point, hp: int) -> None:
+        super().__init__(scene, position, hp)
 
     def on_collision(self, other) -> None:
         self.scene.runtime.next_scene.execute()

@@ -6,6 +6,7 @@ from src.objects.object import Object
 from src.common.serializable import Properties
 from src.actions.wait_for_code import WaitForCode
 
+
 class Agent(Object):
     """
     Simple agent existing in a `scene`.
@@ -14,10 +15,12 @@ class Agent(Object):
     properties: Properties
     scene: 'Scene'
     walkable: bool
+    hp: int
 
-    def __init__(self, scene: 'Scene', position: Point = Point(0, 0)) -> None:
+    def __init__(self, scene: 'Scene', hp: int, position: Point = Point(0, 0)) -> None:
         super().__init__(position, scene)
         self.wait_for_code: WaitForCode = WaitForCode(self.scene.runtime.interactive)
+        self.hp = hp
 
     def tick(self) -> None:
         """
@@ -27,7 +30,7 @@ class Agent(Object):
 
         # Users code was uploaded, so we can safely read the file
         with open(self.scene.runtime.agents_code_path, 'r', encoding="UTF-8") as code_file:
-            code: str = code_file.read() 
+            code: str = code_file.read()
 
         agent_builtins = {
             'move': lambda direction: Move(self, direction).execute(),
