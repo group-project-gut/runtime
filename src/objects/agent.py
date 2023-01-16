@@ -1,4 +1,7 @@
+from src.actions.interact import Interact
 from src.actions.move import Move
+from src.actions.nearby_objects import NearbyObjects
+from src.actions.pick_up import PickUp
 from src.actions.wave import Wave
 from src.common.enums import Direction
 from src.common.point import Point
@@ -14,9 +17,11 @@ class Agent(Object):
     properties: Properties
     scene: 'Scene'
     walkable: bool
+    items: list
 
     def __init__(self, scene: 'Scene', position: Point = Point(0, 0)) -> None:
         super().__init__(position, scene)
+        self.items = []
         self.wait_for_code: WaitForCode = WaitForCode(self.scene.runtime.interactive)
 
     def tick(self) -> None:
@@ -36,6 +41,8 @@ class Agent(Object):
             'len': len,
             'range': range,
             'enumerate': enumerate,
+            'nearby_objects': NearbyObjects(self).execute,
+            'interact': lambda object_id: Interact(self, object_id).execute()
         }
 
         # Sure, I know exec bad
