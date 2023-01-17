@@ -15,9 +15,8 @@ class DealDmg(Action):
         super().__init__()
         self.properties.object_id = target.properties.id
         self.target = target
-        self.dmg = dmg
         self.properties.dmg = dmg
 
     def execute(self) -> None:
-        self.target.hp -= self.dmg
+        self.target.hp -= self.properties.dmg
         self.log()
