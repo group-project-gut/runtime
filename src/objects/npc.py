@@ -1,6 +1,6 @@
 import random
 
-from transitions import Machine, State
+from transitions import Machine
 
 from src.common.point import Point
 from src.objects.object import Object
@@ -12,29 +12,22 @@ from src.common.enums import Direction
 
 class NPC(Object):
     """
-    Simple agent existing in a `scene`.
+    NPC interface.
     """
     base: str
     properties: Properties
     scene: 'Scene'
     walkable: bool
     machine: Machine
+    hp: int
 
-    states = [State(name='idle', on_enter=['idle']), State(name='moving', on_enter=['move'])]
-
-    def __init__(self, scene: 'Scene', position: Point) -> None:
+    def __init__(self, scene: 'Scene', position: Point, hp: int, machine: Machine) -> None:
         super().__init__(position, scene)
-        self.machine = Machine(model=self, states=NPC.states, initial='idle')
-        self.machine.add_ordered_transitions(loop=True)
+        self.machine = machine
+        self.hp = hp
 
     def move(self):
         Move(self, random.choice(list(Direction))).execute()
 
     def idle(self):
         Idle(self).execute()
-
-    def tick(self) -> None:
-        """
-        Called on an `Object`, so it can perform some actions
-        """
-        self.next_state()

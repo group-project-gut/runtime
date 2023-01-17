@@ -5,10 +5,10 @@ from src.runtime import Runtime
 
 def test_move_and_direction_success():
     code = '''
-move(Direction.UP)
-move(Direction.RIGHT)
-move(Direction.DOWN)
-move(Direction.LEFT)'''
+move(Direction.NORTH)
+move(Direction.EAST)
+move(Direction.SOUTH)
+move(Direction.WEST)'''
     runtime = Runtime(code)
     runtime.run()
 
