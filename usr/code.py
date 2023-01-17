@@ -1,1 +1,1 @@
-move(Direction.DOWN)
+move(Direction.SOUTH)
