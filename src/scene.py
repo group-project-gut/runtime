@@ -6,7 +6,7 @@ from src.objects.agent import Agent
 from src.objects.floor import Floor
 from src.objects.portal import Portal
 from src.objects.object import Object
-from src.objects.npcs.enemy import Enemy
+from src.objects.npcs.enemies.training_dummy import TrainingDummy
 
 
 class Scene:
@@ -53,7 +53,7 @@ class Scene:
             Floor(self, point)
 
         Portal(self, random.choice(points))
-        Enemy(self, random.choice(points))
+        TrainingDummy(self, Point(1, 0))
 
     def __getitem__(self, indices) -> Object:
         return self.objects_map.get(indices)

@@ -1,4 +1,5 @@
 import random
+from typing import List
 
 from transitions import Machine, State
 
@@ -12,7 +13,7 @@ from src.common.enums import Direction
 
 class NPC(Object):
     """
-    Simple agent existing in a `scene`.
+    NPC interface.
     """
     base: str
     properties: Properties
@@ -21,11 +22,9 @@ class NPC(Object):
     machine: Machine
     hp: int
 
-    states = [State(name='idle', on_enter=['idle']), State(name='moving', on_enter=['move'])]
-
-    def __init__(self, scene: 'Scene', position: Point, hp: int) -> None:
+    def __init__(self, scene: 'Scene', position: Point, hp: int, states: List[State]) -> None:
         super().__init__(position, scene)
-        self.machine = Machine(model=self, states=NPC.states, initial='idle')
+        self.machine = Machine(model=self, states=states, initial='idle')
         self.machine.add_ordered_transitions(loop=True)
         self.hp = hp
 
