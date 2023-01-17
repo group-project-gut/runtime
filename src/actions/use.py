@@ -2,6 +2,7 @@ from src.actions.action import Action
 from src.common.point import Point
 from src.common.serializable import Properties
 from src.objects.interactive_object import InteractiveObject
+from src.objects.object import Object
 
 
 class Use(Action):
@@ -10,33 +11,37 @@ class Use(Action):
     """
     base: str
     properties: Properties
-    agent: 'Agent'
+    triggering_object: Object
     object_id: int  # object id for interaction
+    action: str  # name of the action method to call
     range: int
 
-    def __init__(self, agent: 'Agent', object_id: int, scope_of_interaction: int = 1) -> None:
+    def __init__(self, triggering_object: Object, object_id: int, action: str, range: int = 1) -> None:
         super().__init__()
-        self.properties.agent = agent
+        self.properties.triggering_object = triggering_object
         self.properties.object_id = object_id
-        self.properties.range = scope_of_interaction
+        self.action = action
+        self.range = range
 
     def execute(self) -> None:
-        interactive_object = self.agent.scene.objects_dict.get(self.object_id)
-        if not self.can_interact(interactive_object):
+        object_to_interact = self.triggering_object.scene.objects_dict.get(self.object_id)
+        if not self.__can_interact(object_to_interact):
             # log here
             return
+        self.__call_action(object_to_interact)
 
-        interactive_object.interact(self.agent)
+    def __call_action(self, object_to_interact):
+        getattr(object_to_interact, self.action)()
 
-    def can_interact(self, interactive_object: InteractiveObject):
-        if not issubclass(interactive_object.__class__, InteractiveObject):
+    def __can_interact(self, object_to_interact: InteractiveObject):
+        if not issubclass(object_to_interact.__class__, InteractiveObject):
             return False
 
-        agent_position = self.agent.properties.position
-        interactive_object_position = interactive_object.properties.position
+        object_position = self.triggering_object.properties.position
+        interactive_object_position = object_to_interact.properties.position
         for i in range(-self.range, self.range + 1):
             for j in range(-self.range, self.range + 1):
-                if interactive_object_position.__eq__(agent_position.__add__(Point(i, j))):
+                if interactive_object_position.__eq__(object_position.__add__(Point(i, j))):
                     return True
 
         return False

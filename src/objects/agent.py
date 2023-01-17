@@ -49,7 +49,7 @@ class Agent(Object):
             'range': range,
             'enumerate': enumerate,
             'nearby_objects': NearbyObjects(self).execute,
-            'interact': lambda object_id: Use(self, object_id).execute()
+            'interact': lambda object_id, action: Use(self, object_id, action).execute()
         }
 
         # Sure, I know exec bad

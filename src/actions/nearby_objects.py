@@ -1,5 +1,3 @@
-from typing import Dict, List
-
 from src.actions.action import Action
 from src.common.point import Point
 from src.common.serializable import Properties
@@ -9,19 +7,17 @@ from src.objects.object import Object
 
 class NearbyObjects(Action):
     """
-    Action to retrieve nearby objects around the triggering object
+    Action to retrieve nearby objects within the range of the triggering object
     """
     base: str
     properties: Properties
-    agent_position: Point
-    objects_map: Dict[Point, List[Object]]
+    object: Object
     range: int
 
-    def __init__(self, agent: 'Agent', range: int = 1) -> None:
+    def __init__(self, object: Object, range: int = 1) -> None:
         super().__init__()
-        self.objects_map = agent.scene.objects_map
-        self.agent_position = agent.properties.position
-        self.properties.agent_id = agent.properties.id
+        self.properties.object_id = object.properties.id
+        self.object = object
         self.range = range
 
     def execute(self) -> None:
@@ -30,19 +26,20 @@ class NearbyObjects(Action):
         self.log()
 
     def __get_nearby_objects(self):
-        objects = []
-        for i in range(-self.range, self.range+1):
-            for j in range(-self.range, self.range+1):
-                object_map = self.objects_map.get(self.agent_position.__add__(Point(i, j)))
-                if object_map is None:
+        nearby_objects = []
+        for i in range(-self.range, self.range + 1):
+            for j in range(-self.range, self.range + 1):
+                objects_on_field = self.object.scene.get_objects_by_position(
+                    self.object.properties.position.__add__(Point(i, j)))
+                if objects_on_field is None:
                     continue
 
-                objects.extend(list(
-                    filter(lambda x: (issubclass(x.__class__, InteractiveObject)), object_map)))
+                nearby_objects.extend(list(
+                    filter(lambda nearby_object: (isinstance(nearby_object, InteractiveObject)), objects_on_field)))
         return list(map(lambda x: (
             {
                 'class_name': x.__class__.__name__,
                 'id': x.properties.id,
                 'position': x.properties.position
             }
-        ), objects))
+        ), nearby_objects))

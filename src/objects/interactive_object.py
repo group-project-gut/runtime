@@ -13,6 +13,3 @@ class InteractiveObject(Object):
 
     def __init__(self, position: Point, scene: 'Scene') -> None:
         super().__init__(position, scene)
-
-    def interact(self, object_triggering_interact) -> None:
-        pass
