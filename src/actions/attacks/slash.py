@@ -4,6 +4,7 @@ from src.actions.action import Action
 from src.actions.deal_damage import DealDamage
 from src.common.serializable import Properties
 from src.objects.object import Object
+from src.objects.npcs.enemy import Enemy
 
 
 class Slash(Action):
@@ -24,4 +25,5 @@ class Slash(Action):
         self.log()
         enemy_position: Point = self.object.properties.position + self.properties.direction.value
         if enemy := self.object.scene[enemy_position]:
-            DealDamage(enemy, 100).execute()
+            if isinstance(enemy, Enemy):
+                DealDamage(enemy, 100).execute()

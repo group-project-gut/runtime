@@ -1,1 +1,1 @@
-move(Direction.SOUTH)
+slash(Direction.WEST)

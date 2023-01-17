@@ -5,7 +5,7 @@ from src.common.point import Point
 from src.common.serializable import Properties
 
 TRAINING_DUMMY_HP = 1000000
-TRAINING_DUMMY_STATES = [State(name='idle', on_enter=['idle'])]
+TRAINING_DUMMY_STATES = [State(name='idle1', on_enter=['idle']), State(name='idle2', on_enter=['idle'])]
 
 
 class TrainingDummy(Enemy):
