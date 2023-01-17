@@ -1,7 +1,6 @@
 import random
-from typing import List
 
-from transitions import Machine, State
+from transitions import Machine
 
 from src.common.point import Point
 from src.objects.object import Object
@@ -22,10 +21,9 @@ class NPC(Object):
     machine: Machine
     hp: int
 
-    def __init__(self, scene: 'Scene', position: Point, hp: int, states: List[State]) -> None:
+    def __init__(self, scene: 'Scene', position: Point, hp: int, machine: Machine) -> None:
         super().__init__(position, scene)
-        self.machine = Machine(model=self, states=states, initial='idle')
-        self.machine.add_ordered_transitions(loop=True)
+        self.machine = machine
         self.hp = hp
 
     def move(self):
@@ -33,9 +31,3 @@ class NPC(Object):
 
     def idle(self):
         Idle(self).execute()
-
-    def tick(self) -> None:
-        """
-        Called on an `Object`, so it can perform some actions
-        """
-        self.next_state()

@@ -81,6 +81,9 @@ class Scene:
         """
         return self.__player
 
+    def get_objects_by_position(self, position):
+        return self[position]
+
     def move_object(self, moved_object: Object, new_position: Point) -> bool:
         """
         Returns True on successful `move` operation

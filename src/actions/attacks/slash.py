@@ -1,10 +1,12 @@
 from src.common.enums import Direction
 from src.common.point import Point
 from src.actions.action import Action
-from src.actions.deal_damage import DealDamage
+from src.actions.deal_damage import DealDmg
 from src.common.serializable import Properties
 from src.objects.object import Object
 from src.objects.npcs.enemy import Enemy
+
+SLASH_DMG = 100
 
 
 class Slash(Action):
@@ -23,7 +25,7 @@ class Slash(Action):
 
     def execute(self) -> None:
         self.log()
-        enemy_position: Point = self.object.properties.position + self.properties.direction.value
-        if enemy := self.object.scene[enemy_position]:
-            if isinstance(enemy, Enemy):
-                DealDamage(enemy, 100).execute()
+        target_position: Point = self.object.properties.position + self.properties.direction.value
+        for target in self.object.scene.get_objects_by_position(target_position):
+            if isinstance(target, Enemy):
+                DealDmg(target, 100).execute()
