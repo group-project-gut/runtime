@@ -4,7 +4,7 @@ from src.common.serializable import Properties
 from src.objects.interactive_object import InteractiveObject
 
 
-class Interact(Action):
+class Use(Action):
     """
     An action that provides the opportunity to interact with another object
     """
@@ -12,13 +12,13 @@ class Interact(Action):
     properties: Properties
     agent: 'Agent'
     object_id: int  # object id for interaction
-    scope_of_interaction: int
+    range: int
 
     def __init__(self, agent: 'Agent', object_id: int, scope_of_interaction: int = 1) -> None:
         super().__init__()
-        self.agent = agent
-        self.object_id = object_id
-        self.scope_of_interaction = scope_of_interaction
+        self.properties.agent = agent
+        self.properties.object_id = object_id
+        self.properties.range = scope_of_interaction
 
     def execute(self) -> None:
         interactive_object = self.agent.scene.objects_dict.get(self.object_id)
@@ -34,8 +34,8 @@ class Interact(Action):
 
         agent_position = self.agent.properties.position
         interactive_object_position = interactive_object.properties.position
-        for i in range(-self.scope_of_interaction, self.scope_of_interaction + 1):
-            for j in range(-self.scope_of_interaction, self.scope_of_interaction + 1):
+        for i in range(-self.range, self.range + 1):
+            for j in range(-self.range, self.range + 1):
                 if interactive_object_position.__eq__(agent_position.__add__(Point(i, j))):
                     return True
 

@@ -1,4 +1,4 @@
-from src.actions.interact import Interact
+from src.actions.use import Use
 from src.actions.move import Move
 from src.actions.nearby_objects import NearbyObjects
 from src.actions.pick_up import PickUp
@@ -42,7 +42,7 @@ class Agent(Object):
             'range': range,
             'enumerate': enumerate,
             'nearby_objects': NearbyObjects(self).execute,
-            'interact': lambda object_id: Interact(self, object_id).execute()
+            'interact': lambda object_id: Use(self, object_id).execute()
         }
 
         # Sure, I know exec bad
