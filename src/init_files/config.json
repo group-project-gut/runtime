@@ -1,0 +1,7 @@
+{
+  "floor_colour": "(34, 177, 76)",
+  "functions" : [
+    {"(0, 0, 0)" : "TrainingDummy"},
+    {"(237, 28, 36)" : "Portal"},
+    {"(255, 201, 14)" : "self._init_agent"} ]
+  }

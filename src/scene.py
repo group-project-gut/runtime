@@ -1,14 +1,14 @@
 import random
 from typing import Dict, List
-
 from src.common.point import Point
 from src.objects.agent import Agent
 from src.objects.floor import Floor
 from src.objects.portal import Portal
 from src.objects.object import Object
 from src.objects.npcs.enemies.training_dummy import TrainingDummy
-
-
+import json
+from PIL import Image
+PATH_TO_CONFIG = "./src/init_files/config.json"
 class Scene:
     """
     Object representing one level in the game.
@@ -27,20 +27,16 @@ class Scene:
         self._objects_id_map = {}
         self.agent_locals = {}
         self.runtime = runtime
-
-        self._generate_scene_small()
-
-        self.__player = Agent(self)
+        self._generate_scene()
+        self.__player = None
 
     def _generate_scene_small(self):
         """
         Small scene for tests
         """
         points = [Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1), Point(0, 2), Point(1, 2)]
-
         for point in points:
             Floor(self, point)
-
         #Portal(self, random.choice(points))
         #TrainingDummy(self, Point(1, 0))
 
@@ -49,24 +45,23 @@ class Scene:
         For now it'll generate scene layout
         Subject to be changed
         """
-        STEPS = 20
-        pos = Point(0, 0)
-        points = [pos]
-        for _ in range(STEPS):
-            pos += Point(random.choice([-1, 0, 1]), random.choice([-1, 0, 1]))
-            points.append(pos)
-            points.append(pos + Point(-1, 0))
-            points.append(pos + Point(1, 0))
-            points.append(pos + Point(0, -1))
-            points.append(pos + Point(0, 1))
 
-        points = list(dict.fromkeys(points))  # remove duplicates
-
-        for point in points:
-            Floor(self, point)
-
-        Portal(self, random.choice(points))
-        TrainingDummy(self, Point(1, 0))
+        with open(PATH_TO_CONFIG) as json_file:
+            config = json.load(json_file)
+        floor_colour = config["floor_colour"]
+        colour_to_function_dict = {}
+        for dict_row in config["functions"]:
+            colour_to_function_dict.update(dict_row)
+        map = Image.open("./src/maps/map1.bmp")
+        image_width, image_height = map.size
+        for width in range(image_width):
+            for height in range(image_height):
+                pixel_colour = str(map.getpixel((width, height)))
+                if pixel_colour in colour_to_function_dict or pixel_colour == floor_colour:
+                    Floor(self, Point(width, height))
+                    if pixel_colour != floor_colour:
+                        eval(colour_to_function_dict[pixel_colour])(self, Point(width, height))
+        map.close()
 
     def run(self):
         """
@@ -144,3 +139,6 @@ class Scene:
         Add object to per scene storage indexed by objects `id`.
         """
         self._objects_id_map[new_object.properties.id] = new_object
+
+    def _init_agent(self, _, points):
+        self.__player = Agent(self, points)
