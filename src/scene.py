@@ -14,17 +14,17 @@ class Scene:
     Object representing one level in the game.
     It is responsible for storing all instances of `Object` class.
     """
-    objects_count: int
-    objects_map: Dict[Point, List[Object]]  # fields
-    objects_dict: Dict[int, Object]
     agent_locals: Dict
+    objects_count: int
     runtime: 'Runtime'
+    _objects_position_map: Dict[Point, List[Object]]  # fields
+    _objects_id_map: Dict[int, Object]
     __player: Agent
 
     def __init__(self, runtime) -> None:
         self.objects_count = 0
-        self.objects_map = {}
-        self.objects_dict = {}
+        self._objects_position_map = {}
+        self._objects_id_map = {}
         self.agent_locals = {}
         self.runtime = runtime
         self.__player = Agent(self)
@@ -55,9 +55,6 @@ class Scene:
         Portal(self, random.choice(points))
         TrainingDummy(self, Point(1, 0))
 
-    def __getitem__(self, indices) -> Object:
-        return self.objects_map.get(indices)
-
     def run(self):
         """
         TODO
@@ -66,7 +63,7 @@ class Scene:
         spins: int = 0
         while spins < max_spins:
             spins += 1
-            for scene_object in list(self.objects_dict.values()):
+            for scene_object in list(self._objects_id_map.values()):
                 scene_object.tick()
 
     def get_player(self):
@@ -82,7 +79,10 @@ class Scene:
         return self.__player
 
     def get_objects_by_position(self, position):
-        return self[position]
+        return self._objects_position_map[position]
+
+    def get_objects_by_id(self, id):
+        return self._objects_id_map[id]
 
     def move_object(self, moved_object: Object, new_position: Point) -> bool:
         """
@@ -94,30 +94,30 @@ class Scene:
         if not self.is_walkable_field(new_position):
             return False
 
-        self[moved_object.properties.position].remove(moved_object)
-        self[new_position].append(moved_object)
+        self._objects_position_map[moved_object.properties.position].remove(moved_object)
+        self._objects_position_map[new_position].append(moved_object)
         moved_object.properties.position = new_position
         return True
 
     def is_walkable_field(self, position: Point):
-        return self[position] and self[position][0].walkable
+        return self._objects_position_map[position] and self._objects_position_map[position][0].walkable
 
     def check_collisions(self, entering_object: Object) -> None:
         """
         Call `on_collision` callback of every Object in the same
         field as `entering_object`.
         """
-        for collision_object in self[entering_object.properties.position]:
+        for collision_object in self._objects_position_map[entering_object.properties.position]:
             if collision_object != entering_object:
                 collision_object.on_collision(entering_object)
 
-    def add_object_to_map(self, new_object: Object) -> None:
+    def add_object_to_map(self, new_object: Object, position: Point) -> None:
         """
         Add object to per scene storage indexed by objects position.
         The storage can store multiple objects and for now, object at
         index `0` is a `field`(`floor`).
         """
-        if self.objects_map.get(new_object.properties.position) is None:
-            self.objects_map[new_object.properties.position] = [new_object]
+        if self._objects_position_map.get(position) is None:
+            self._objects_position_map[position] = [new_object]
         else:
-            self.objects_map[new_object.properties.position].append(new_object)
+            self._objects_position_map[position].append(new_object)

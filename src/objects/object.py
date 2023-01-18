@@ -19,7 +19,7 @@ class Object(Serializable):
         self.scene = scene
         self.walkable = False
 
-        scene.add_object_to_map(self)
+        scene.add_object_to_map(self, position)
         scene.objects_dict[self.properties.id] = self
         scene.objects_count += 1
 
