@@ -27,9 +27,10 @@ class Scene:
         self._objects_id_map = {}
         self.agent_locals = {}
         self.runtime = runtime
-        self.__player = Agent(self)
 
         self._generate_scene()
+
+        self.__player = Agent(self)
 
     def _generate_scene(self):
         """
@@ -94,13 +95,17 @@ class Scene:
         if not self.is_walkable_field(new_position):
             return False
 
-        self._objects_position_map[moved_object.properties.position].remove(moved_object)
-        self._objects_position_map[new_position].append(moved_object)
-        moved_object.properties.position = new_position
+        previous_position = moved_object.properties.position
+        moved_object.free_field(previous_position)
+        if moved_object.occupy_field(new_position):
+            moved_object.properties.position = new_position
+        else:
+            moved_object.occupy_field(previous_position)
+            return False
         return True
 
-    def is_walkable_field(self, position: Point):
-        return self._objects_position_map[position] and self._objects_position_map[position][0].walkable
+    def is_walkable_field(self, position: Point) -> bool:
+        return self._objects_position_map.get(position) and self._objects_position_map[position][0].walkable
 
     def check_collisions(self, entering_object: Object) -> None:
         """
@@ -111,13 +116,19 @@ class Scene:
             if collision_object != entering_object:
                 collision_object.on_collision(entering_object)
 
-    def add_object_to_map(self, new_object: Object, position: Point) -> None:
+    def add_object_to_position_map(self, new_object: Object, position: Point) -> None:
         """
         Add object to per scene storage indexed by objects position.
         The storage can store multiple objects and for now, object at
         index `0` is a `field`(`floor`).
         """
         if self._objects_position_map.get(position) is None:
-            self._objects_position_map[position] = [new_object]
-        else:
-            self._objects_position_map[position].append(new_object)
+            self._objects_position_map[position] = []
+        
+        new_object.occupy_field(position)
+
+    def add_object_to_id_map(self, new_object: Object) -> None:
+        """
+        Add object to per scene storage indexed by objects `id`.
+        """
+        self._objects_id_map[new_object.properties.id] = new_object

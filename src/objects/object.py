@@ -19,12 +19,20 @@ class Object(Serializable):
         self.scene = scene
         self.walkable = False
 
-        scene.add_object_to_map(self, position)
-        scene.objects_dict[self.properties.id] = self
+        scene.add_object_to_position_map(self, position)
+        scene.add_object_to_id_map(self)
         scene.objects_count += 1
 
         # Log creation of the `Object`
         print(self)
+
+    def occupy_field(self, position: Point) -> bool:
+        self.scene.get_objects_by_position(position).append(self)
+        return True
+    
+    def free_field(self, position: Point) -> None:
+        self.scene.get_objects_by_position(position).remove(self)
+        return True
 
     def tick(self) -> None:
         """
