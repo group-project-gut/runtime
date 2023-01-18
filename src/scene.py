@@ -36,7 +36,7 @@ class Scene:
         """
         Small scene for tests
         """
-        points = [Point(0, 0),Point(0, 1),Point(1, 0),Point(1, 1)]
+        points = [Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1), Point(0, 2), Point(1, 2)]
 
         for point in points:
             Floor(self, point)
@@ -136,7 +136,7 @@ class Scene:
         """
         if self._objects_position_map.get(position) is None:
             self._objects_position_map[position] = []
-        
+
         new_object.occupy_field(position)
 
     def add_object_to_id_map(self, new_object: Object) -> None:
