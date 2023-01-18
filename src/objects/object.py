@@ -14,14 +14,14 @@ class Object(Serializable):
 
     def __init__(self, position: Point, scene: 'Scene') -> None:
         super().__init__(__class__.__name__)
-        self.properties.id = scene.objects_count  # int
+        self.properties.id = scene.last_object_id  # int
         self.properties.position = position  # Point
         self.scene = scene
         self.walkable = False
 
         scene.add_object_to_position_map(self, position)
         scene.add_object_to_id_map(self)
-        scene.objects_count += 1
+        scene.increment_last_object_id()
 
         # Log creation of the `Object`
         print(self)

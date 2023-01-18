@@ -15,14 +15,14 @@ class Scene:
     It is responsible for storing all instances of `Object` class.
     """
     agent_locals: Dict
-    objects_count: int
+    last_object_id: int
     runtime: 'Runtime'
     _objects_position_map: Dict[Point, List[Object]]  # fields
     _objects_id_map: Dict[int, Object]
     __player: Agent
 
     def __init__(self, runtime) -> None:
-        self.objects_count = 0
+        self.last_object_id = 0
         self._objects_position_map = {}
         self._objects_id_map = {}
         self.agent_locals = {}
@@ -32,7 +32,7 @@ class Scene:
 
         self.__player = Agent(self)
 
-    def _generate_scene_small(self):
+    def _generate_scene_small(self) -> None:
         """
         Small scene for tests
         """
@@ -41,10 +41,10 @@ class Scene:
         for point in points:
             Floor(self, point)
 
-        #Portal(self, random.choice(points))
-        #TrainingDummy(self, Point(1, 0))
+        # Portal(self, random.choice(points))
+        TrainingDummy(self, Point(1, 0))
 
-    def _generate_scene(self):
+    def _generate_scene(self) -> None:
         """
         For now it'll generate scene layout
         Subject to be changed
@@ -68,7 +68,7 @@ class Scene:
         Portal(self, random.choice(points))
         TrainingDummy(self, Point(1, 0))
 
-    def run(self):
+    def run(self) -> None:
         """
         TODO
         """
@@ -79,7 +79,7 @@ class Scene:
             for scene_object in list(self._objects_id_map.values()):
                 scene_object.tick()
 
-    def get_player(self):
+    def get_player(self) -> Agent:
         """
         Returns reference to a players agent.
         We cannot use just the field `__player`
@@ -91,10 +91,10 @@ class Scene:
         """
         return self.__player
 
-    def get_objects_by_position(self, position):
+    def get_objects_by_position(self, position) -> List[Object]:
         return self._objects_position_map[position]
 
-    def get_objects_by_id(self, id):
+    def get_object_by_id(self, id) -> Object:
         return self._objects_id_map[id]
 
     def move_object(self, moved_object: Object, new_position: Point) -> bool:
@@ -128,6 +128,9 @@ class Scene:
             if collision_object != entering_object:
                 collision_object.on_collision(entering_object)
 
+    def increment_last_object_id(self) -> None:
+        self.last_object_id += 1
+
     def add_object_to_position_map(self, new_object: Object, position: Point) -> None:
         """
         Add object to per scene storage indexed by objects position.
@@ -144,3 +147,6 @@ class Scene:
         Add object to per scene storage indexed by objects `id`.
         """
         self._objects_id_map[new_object.properties.id] = new_object
+
+    def remove_object_from_id_map(self, object: Object) -> None:
+        del self._objects_id_map[object.properties.id]
