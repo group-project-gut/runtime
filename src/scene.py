@@ -28,9 +28,21 @@ class Scene:
         self.agent_locals = {}
         self.runtime = runtime
 
-        self._generate_scene()
+        self._generate_scene_small()
 
         self.__player = Agent(self)
+
+    def _generate_scene_small(self):
+        """
+        Small scene for tests
+        """
+        points = [Point(0, 0),Point(0, 1),Point(1, 0),Point(1, 1)]
+
+        for point in points:
+            Floor(self, point)
+
+        #Portal(self, random.choice(points))
+        #TrainingDummy(self, Point(1, 0))
 
     def _generate_scene(self):
         """

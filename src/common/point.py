@@ -20,6 +20,10 @@ class Point:
     def __str__(self) -> str:
         return f"({self.x},{self.y})"
 
+    # For debugging purposes
+    def __repr__(self):
+        return str(self)
+
     def __add__(self, other):
         # Point type should be immutable
         return Point(self.x + other.x, self.y + other.y)

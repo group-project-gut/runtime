@@ -39,4 +39,5 @@ class Runtime:
                 # Execution stopped
                 pass
             except Exception:
+                # We should log the error here!
                 self.next_scene.execute()
