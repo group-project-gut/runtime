@@ -42,7 +42,7 @@ class Scene:
             Floor(self, point)
 
         # Portal(self, random.choice(points))
-        # TrainingDummy(self, Point(1, 0))
+        TrainingDummy(self, Point(1, 0))
 
     def _generate_scene(self):
         """
@@ -128,6 +128,9 @@ class Scene:
             if collision_object != entering_object:
                 collision_object.on_collision(entering_object)
 
+    def increment_objects_count(self) -> None:
+        self.objects_count += 1
+
     def add_object_to_position_map(self, new_object: Object, position: Point) -> None:
         """
         Add object to per scene storage indexed by objects position.
@@ -145,10 +148,14 @@ class Scene:
         """
         self._objects_id_map[new_object.properties.id] = new_object
 
-    def remove_object_from_map(self, object_to_be_removed: Object):
+    def decrement_objects_count(self) -> None:
         self.objects_count -= 1
-        self.objects_map[object_to_be_removed.properties.position].remove(object_to_be_removed)
-        for index, object in self.objects_dict.items():
+
+    def remove_object_from_position_map(self, object_to_be_removed: Object):
+        self._objects_position_map[object_to_be_removed.properties.position].remove(object_to_be_removed)
+
+    def remove_object_from_id_map(self, object_to_be_removed: Object):
+        for index, object in self._objects_id_map.items():
             if object == object_to_be_removed:
-                del self.objects_dict[index]
+                del self._objects_id_map[index]
                 break

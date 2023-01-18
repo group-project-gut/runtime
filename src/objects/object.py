@@ -21,7 +21,7 @@ class Object(Serializable):
 
         scene.add_object_to_position_map(self, position)
         scene.add_object_to_id_map(self)
-        scene.objects_count += 1
+        scene.increment_objects_count()
 
         # Log creation of the `Object`
         print(self)
