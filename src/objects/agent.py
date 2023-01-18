@@ -1,4 +1,7 @@
+from src.actions.use import Use
 from src.actions.move import Move
+from src.actions.nearby_objects import NearbyObjects
+from src.actions.pick_up import PickUp
 from src.actions.wave import Wave
 from src.actions.attacks.slash import Slash
 from src.common.enums import Direction
@@ -18,10 +21,12 @@ class Agent(Object):
     properties: Properties
     scene: 'Scene'
     walkable: bool
+    items: list
     hp: int
 
     def __init__(self, scene: 'Scene', position: Point = Point(0, 0)) -> None:
         super().__init__(position, scene)
+        self.items = []
         self.wait_for_code: WaitForCode = WaitForCode(self.scene.runtime.interactive)
         self.hp = AGENT_HP
 
@@ -43,6 +48,8 @@ class Agent(Object):
             'len': len,
             'range': range,
             'enumerate': enumerate,
+            'nearby_objects': NearbyObjects(self).execute,
+            'interact': lambda object_id, action: Use(self, object_id, action).execute()
         }
 
         # Sure, I know exec bad
