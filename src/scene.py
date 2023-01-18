@@ -15,14 +15,14 @@ class Scene:
     It is responsible for storing all instances of `Object` class.
     """
     agent_locals: Dict
-    objects_count: int
+    last_object_id: int
     runtime: 'Runtime'
     _objects_position_map: Dict[Point, List[Object]]  # fields
     _objects_id_map: Dict[int, Object]
     __player: Agent
 
     def __init__(self, runtime) -> None:
-        self.objects_count = 0
+        self.last_object_id = 0
         self._objects_position_map = {}
         self._objects_id_map = {}
         self.agent_locals = {}
@@ -128,8 +128,8 @@ class Scene:
             if collision_object != entering_object:
                 collision_object.on_collision(entering_object)
 
-    def increment_objects_count(self) -> None:
-        self.objects_count += 1
+    def increment_last_object_id(self):
+        self.last_object_id += 1
 
     def add_object_to_position_map(self, new_object: Object, position: Point) -> None:
         """
@@ -148,14 +148,5 @@ class Scene:
         """
         self._objects_id_map[new_object.properties.id] = new_object
 
-    def decrement_objects_count(self) -> None:
-        self.objects_count -= 1
-
-    def remove_object_from_position_map(self, object_to_be_removed: Object):
-        self._objects_position_map[object_to_be_removed.properties.position].remove(object_to_be_removed)
-
-    def remove_object_from_id_map(self, object_to_be_removed: Object):
-        for index, object in self._objects_id_map.items():
-            if object == object_to_be_removed:
-                del self._objects_id_map[index]
-                break
+    def remove_object_from_id_map(self, object: Object):
+        del self._objects_id_map[object.properties.id]

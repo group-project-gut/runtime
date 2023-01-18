@@ -1,7 +1,7 @@
 from typing import Union
 
 from src.actions.action import Action
-from src.actions.die import Die
+from src.actions.destroy import Destroy
 from src.common.serializable import Properties
 from src.objects.npc import NPC
 
@@ -24,4 +24,4 @@ class DealDmg(Action):
         self.target.hp -= self.properties.dmg
         self.log()
         if self.target.hp <= 0:
-            Die(self.target).execute()
+            Destroy(self.target).execute()

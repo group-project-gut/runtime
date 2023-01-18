@@ -31,8 +31,3 @@ class NPC(Object):
 
     def idle(self):
         Idle(self).execute()
-
-    def die(self):
-        self.scene.decrement_objects_count()
-        self.scene.remove_object_from_position_map(self)
-        self.scene.remove_object_from_id_map(self)

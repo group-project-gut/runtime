@@ -61,8 +61,3 @@ class Agent(Object):
             {'__builtins__': agent_builtins},
             self.scene.agent_locals,
         )
-
-    def die(self):
-        self.scene.runtime.next_scene.execute()
-        # Stop execution flow of `exec`
-        raise MapExit

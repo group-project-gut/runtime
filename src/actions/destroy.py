@@ -6,7 +6,7 @@ from src.common.serializable import Properties
 from src.objects.npc import NPC
 
 
-class Die(Action):
+class Destroy(Action):
     """
     Simple action for dying.
     """
@@ -20,5 +20,6 @@ class Die(Action):
         self.object = object
 
     def execute(self) -> None:
+        self.object.free_field(self.object.properties.position)
+        self.object.scene.remove_object_from_id_map(self.object)
         self.log()
-        self.object.die()
