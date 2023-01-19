@@ -7,6 +7,7 @@ from src.objects.floor import Floor
 from src.objects.portal import Portal
 from src.objects.object import Object
 from src.objects.npcs.enemies.training_dummy import TrainingDummy
+from src.objects.npcs.enemies.bear import Bear
 
 
 class Scene:
@@ -42,7 +43,7 @@ class Scene:
             Floor(self, point)
 
         # Portal(self, random.choice(points))
-        TrainingDummy(self, Point(1, 0))
+        Bear(self, Point(1, 0))
 
     def _generate_scene(self) -> None:
         """
