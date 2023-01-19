@@ -17,6 +17,7 @@ class Object(Serializable):
         self.properties.id = scene.last_object_id  # int
         self.properties.position = position  # Point
         self.scene = scene
+        self.name = self.__class__.__name__
         self.walkable = False
 
         scene.add_object_to_position_map(self, position)
