@@ -10,8 +10,6 @@ class Look(Action):
     """
     Simple looking action. Returns list of objects in set direction.
     """
-    base: str
-    properties: Properties
     object: Object
 
     def __init__(self, object: Object, direction: Direction) -> None:
