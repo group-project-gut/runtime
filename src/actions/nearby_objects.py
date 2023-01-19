@@ -9,8 +9,6 @@ class NearbyObjects(Action):
     """
     Action to retrieve nearby objects within the range of the triggering object
     """
-    base: str
-    properties: Properties
     object: Object
     range: int
 

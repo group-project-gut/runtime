@@ -10,8 +10,6 @@ class DealDmg(Action):
     """
     Simple action for dealing damage.
     """
-    base: str
-    properties: Properties
     target: Union['Agent', NPC]
 
     def __init__(self, target: Union['Agent', NPC], dmg: int) -> None:

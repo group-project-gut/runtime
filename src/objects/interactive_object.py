@@ -7,8 +7,6 @@ class InteractiveObject(Object):
     """
     Abstract represents object that can interact with each other
     """
-    base: str
-    properties: Properties
     can_pick_up: bool
 
     def __init__(self, position: Point, scene: 'Scene') -> None:

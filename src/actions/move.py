@@ -10,8 +10,6 @@ class Move(Action):
     Simple action for changing position of `Agent`. It does not log anything
     in case the movement was not possible(destination is not walkable etc).
     """
-    base: str
-    properties: Properties
     object: Object
 
     def __init__(self, object: Object, direction: Direction) -> None:

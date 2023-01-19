@@ -7,8 +7,6 @@ class Object(Serializable):
     Abstract object existing in a `scene`. Represents part of scene's state,
     in contrast to `Action` which represents only modifications of the state.
     """
-    base: str
-    properties: Properties
     scene: 'Scene'
     walkable: bool
 

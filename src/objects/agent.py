@@ -18,10 +18,6 @@ class Agent(Object):
     """
     Simple agent existing in a `scene`.
     """
-    base: str
-    properties: Properties
-    scene: 'Scene'
-    walkable: bool
     items: list
     hp: int
 

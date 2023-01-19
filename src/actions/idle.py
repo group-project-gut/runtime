@@ -7,8 +7,6 @@ class Idle(Action):
     """
     Simple action for idling.
     """
-    base: str
-    properties: Properties
     object: Object
 
     def __init__(self, object: Object) -> None:

@@ -7,8 +7,6 @@ class NextScene(Action):
     """
     `Action` used to create next scene. Called on collision by `Portal`.
     """
-    base: str
-    properties: Properties
     runtime: 'Runtime'
 
     def __init__(self, runtime: 'Runtime') -> None:

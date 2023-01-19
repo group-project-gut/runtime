@@ -9,8 +9,6 @@ class Use(Action):
     """
     An action that provides the opportunity to interact with another object
     """
-    base: str
-    properties: Properties
     triggering_object: Object
     object_id: int  # object id for interaction
     action: str  # name of the action method to call

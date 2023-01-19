@@ -12,10 +12,6 @@ class TrainingDummy(Enemy):
     """
     Enemy that does not do anything.
     """
-    base: str
-    properties: Properties
-    scene: 'Scene'
-    walkable: bool
 
     def __init__(self, scene: 'Scene', position: Point) -> None:
         super().__init__(scene, position, TRAINING_DUMMY_HP,

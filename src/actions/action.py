@@ -6,8 +6,6 @@ class Action(Serializable):
     Represents abstract object responsible for interacting
     with a `scene`.
     """
-    base: str
-    properties: Properties
 
     def __init__(self) -> None:
         super().__init__(__class__.__name__)

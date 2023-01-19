@@ -13,8 +13,6 @@ class Slash(Action):
     """
     Simple action for attacking.
     """
-    base: str
-    properties: Properties
     object: Object
 
     def __init__(self, object: Object, direction: Direction) -> None:
