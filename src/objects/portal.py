@@ -1,7 +1,6 @@
 from src.common.exec_interrupt import MapExit
 from src.common.point import Point
 from src.objects.object import Object
-from src.common.serializable import Properties
 
 
 class Portal(Object):

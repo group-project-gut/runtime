@@ -1,5 +1,4 @@
 from src.actions.action import Action
-from src.common.serializable import Properties
 
 
 class WaitForCode(Action):

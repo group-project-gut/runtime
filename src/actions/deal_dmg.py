@@ -2,7 +2,6 @@ from typing import Union
 
 from src.actions.action import Action
 from src.actions.destroy import Destroy
-from src.common.serializable import Properties
 from src.objects.npc import NPC
 
 

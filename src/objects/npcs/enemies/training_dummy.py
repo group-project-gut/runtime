@@ -2,7 +2,6 @@ from transitions import Machine, State
 
 from src.objects.npcs.enemy import Enemy
 from src.common.point import Point
-from src.common.serializable import Properties
 
 TRAINING_DUMMY_HP = 1000000
 TRAINING_DUMMY_STATES = [State(name='idle')]

@@ -1,6 +1,5 @@
 from src.actions.action import Action
 from src.common.point import Point
-from src.common.serializable import Properties
 from src.objects.interactive_object import InteractiveObject
 from src.objects.object import Object
 

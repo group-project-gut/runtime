@@ -1,7 +1,6 @@
 from src.common.enums import Direction
 from src.common.point import Point
 from src.actions.action import Action
-from src.common.serializable import Properties
 from src.objects.object import Object
 
 

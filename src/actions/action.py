@@ -1,4 +1,4 @@
-from src.common.serializable import Serializable, Properties
+from src.common.serializable import Serializable
 
 
 class Action(Serializable):

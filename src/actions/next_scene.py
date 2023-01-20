@@ -1,6 +1,5 @@
 from src.scene import Scene
 from src.actions.action import Action
-from src.common.serializable import Properties
 
 
 class NextScene(Action):
