@@ -1,3 +1,5 @@
+from enum import Enum
+
 from src.common.state_machine import StateMachine
 from src.common.enums import Direction
 from src.objects.npcs.enemy import Enemy
@@ -43,30 +45,38 @@ class Bear(Enemy):
         return False
 
 
+class State(Enum):
+    IDLE = 0
+    MOVE = 1
+    PREPARE_TO_SLAM = 2
+    SLAM = 3
+
+
 class BearStateMachine(StateMachine):
+
     def __init__(self, bear: Bear):
         super().__init__()
         self.bear = bear
-        self.add_state("idle")\
-            .add_state("move")\
-            .add_state("prepare_to_slam")\
-            .add_state("slam")\
-            .add_transition("idle", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())\
-            .add_transition("idle", "move", lambda: True)\
-            .add_transition("move", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())\
-            .add_transition("prepare_to_slam", "slam", lambda: True)\
-            .add_transition("slam", "idle", lambda: True)\
-            .set_state("idle")
+        self.add_state(State.IDLE)\
+            .add_state(State.MOVE)\
+            .add_state(State.PREPARE_TO_SLAM)\
+            .add_state(State.SLAM)\
+            .add_transition(State.IDLE, State.PREPARE_TO_SLAM, lambda: self.bear.is_there_agent_to_slam())\
+            .add_transition(State.IDLE, State.MOVE, lambda: True)\
+            .add_transition(State.MOVE, State.PREPARE_TO_SLAM, lambda: self.bear.is_there_agent_to_slam())\
+            .add_transition(State.PREPARE_TO_SLAM, State.SLAM, lambda: True)\
+            .add_transition(State.SLAM, State.IDLE, lambda: True)\
+            .set_state(State.IDLE)
 
     def _state_logic(self):
         match self._state:
-            case "idle":
+            case State.IDLE:
                 self.bear.idle()
-            case "move":
+            case State.MOVE:
                 self.bear.move()
-            case "prepare_to_slam":
+            case State.PREPARE_TO_SLAM:
                 self.bear.prepare_to_slam()
-            case "slam":
+            case State.SLAM:
                 self.bear.slam()
 
     def _enter_state(self, new_state, old_state):
