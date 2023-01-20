@@ -32,9 +32,6 @@ class TrainingDummyStateMachine(StateMachine):
     def _state_logic(self):
         self.dummy.idle()
 
-    def _get_transition(self):
-        return None
-
     def _enter_state(self, new_state, old_state):
         pass
 

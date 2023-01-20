@@ -52,6 +52,12 @@ class BearStateMachine(StateMachine):
         self.add_state("prepare_to_slam")
         self.add_state("slam")
 
+        self.add_transition("idle", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())
+        self.add_transition("idle", "move", lambda: True)
+        self.add_transition("move", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())
+        self.add_transition("prepare_to_slam", "slam", lambda: True)
+        self.add_transition("slam", "idle", lambda: True)
+
         self.set_state("idle")
 
     def _state_logic(self):
@@ -64,21 +70,6 @@ class BearStateMachine(StateMachine):
                 self.bear.prepare_to_slam()
             case "slam":
                 self.bear.slam()
-
-    def _get_transition(self):
-        match self._state:
-            case "idle":
-                if self.bear.is_there_agent_to_slam():
-                    return "prepare_to_slam"
-                return "move"
-            case "move":
-                if self.bear.is_there_agent_to_slam():
-                    return "prepare_to_slam"
-            case "prepare_to_slam":
-                return "slam"
-            case "slam":
-                return "idle"
-        return None
 
     def _enter_state(self, new_state, old_state):
         pass
