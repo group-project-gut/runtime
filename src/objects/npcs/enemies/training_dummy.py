@@ -1,11 +1,9 @@
-from transitions import Machine, State
-
+from src.common.state_machine import StateMachine
 from src.objects.npcs.enemy import Enemy
 from src.common.point import Point
 from src.common.serializable import Properties
 
 TRAINING_DUMMY_HP = 1000000
-TRAINING_DUMMY_STATES = [State(name='idle')]
 
 
 class TrainingDummy(Enemy):
@@ -18,8 +16,27 @@ class TrainingDummy(Enemy):
     walkable: bool
 
     def __init__(self, scene: 'Scene', position: Point) -> None:
-        super().__init__(scene, position, TRAINING_DUMMY_HP,
-                         Machine(model=self, states=TRAINING_DUMMY_STATES, initial='idle'))
+        super().__init__(scene, position, TRAINING_DUMMY_HP, TrainingDummyStateMachine(self))
 
     def tick(self) -> None:
-        self.idle()
+        self.machine.tick()
+
+
+class TrainingDummyStateMachine(StateMachine):
+    def __init__(self, dummy: TrainingDummy):
+        super().__init__()
+        self.dummy = dummy
+        self.add_state("idle")
+        self.set_state("idle")
+
+    def _state_logic(self):
+        self.dummy.idle()
+
+    def _get_transition(self):
+        return None
+
+    def _enter_state(self, new_state, old_state):
+        pass
+
+    def _exit_state(self, old_state, new_state):
+        pass

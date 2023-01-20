@@ -1,5 +1,4 @@
-from transitions import Machine
-
+from src.common.state_machine import StateMachine
 from src.objects.npc import NPC
 from src.common.point import Point
 from src.common.serializable import Properties
@@ -13,8 +12,8 @@ class Enemy(NPC):
     properties: Properties
     scene: 'Scene'
     walkable: bool
-    machine: Machine
+    machine: StateMachine
     hp: int
 
-    def __init__(self, scene: 'Scene', position: Point, hp: int, machine: Machine) -> None:
+    def __init__(self, scene: 'Scene', position: Point, hp: int, machine: StateMachine) -> None:
         super().__init__(scene, position, hp, machine)
