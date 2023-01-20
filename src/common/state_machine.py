@@ -1,18 +1,28 @@
 from abc import ABC, abstractmethod
 
 
+class Transition:
+    def __init__(self, from_state, to_state, condition_func):
+        self.from_state = from_state
+        self.to_state = to_state
+        self.condition_func = condition_func
+
+
 class StateMachine(ABC):
     def __init__(self):
         self._state = None
         self._previous_state = None
         self._states = {}
+        self._transitions = {}
 
     @abstractmethod
     def _state_logic(self):
         pass
 
-    @abstractmethod
     def _get_transition(self):
+        for transition in self._transitions[self._state]:
+            if transition.condition_func():
+                return transition.to_state
         return None
 
     @abstractmethod
@@ -33,6 +43,10 @@ class StateMachine(ABC):
 
     def add_state(self, name):
         self._states[name] = name
+        self._transitions[name] = []
+
+    def add_transition(self, from_state, to_state, condition_func):
+        self._transitions[from_state].append(Transition(from_state, to_state, condition_func))
 
     def tick(self):
         if self._state:
