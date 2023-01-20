@@ -47,18 +47,16 @@ class BearStateMachine(StateMachine):
     def __init__(self, bear: Bear):
         super().__init__()
         self.bear = bear
-        self.add_state("idle")
-        self.add_state("move")
-        self.add_state("prepare_to_slam")
-        self.add_state("slam")
-
-        self.add_transition("idle", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())
-        self.add_transition("idle", "move", lambda: True)
-        self.add_transition("move", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())
-        self.add_transition("prepare_to_slam", "slam", lambda: True)
-        self.add_transition("slam", "idle", lambda: True)
-
-        self.set_state("idle")
+        self.add_state("idle")\
+            .add_state("move")\
+            .add_state("prepare_to_slam")\
+            .add_state("slam")\
+            .add_transition("idle", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())\
+            .add_transition("idle", "move", lambda: True)\
+            .add_transition("move", "prepare_to_slam", lambda: self.bear.is_there_agent_to_slam())\
+            .add_transition("prepare_to_slam", "slam", lambda: True)\
+            .add_transition("slam", "idle", lambda: True)\
+            .set_state("idle")
 
     def _state_logic(self):
         match self._state:

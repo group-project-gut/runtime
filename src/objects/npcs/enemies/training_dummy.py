@@ -21,8 +21,8 @@ class TrainingDummyStateMachine(StateMachine):
     def __init__(self, dummy: TrainingDummy):
         super().__init__()
         self.dummy = dummy
-        self.add_state("idle")
-        self.set_state("idle")
+        self.add_state("idle")\
+            .set_state("idle")
 
     def _state_logic(self):
         self.dummy.idle()
