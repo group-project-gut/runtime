@@ -7,7 +7,7 @@ from src.objects.object import Object
 from src.objects.npc import NPC
 from src.objects.agent import Agent
 
-SLAM_DMG = 1
+SLAM_DMG = 10
 
 
 class Slam(Action):

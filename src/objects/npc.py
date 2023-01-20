@@ -1,7 +1,6 @@
 import random
 
-from transitions import Machine
-
+from src.common.state_machine import StateMachine
 from src.common.point import Point
 from src.objects.object import Object
 from src.actions.move import Move
@@ -13,10 +12,10 @@ class NPC(Object):
     """
     NPC interface.
     """
-    machine: Machine
+    machine: StateMachine
     hp: int
 
-    def __init__(self, scene: 'Scene', position: Point, hp: int, machine: Machine) -> None:
+    def __init__(self, scene: 'Scene', position: Point, hp: int, machine: StateMachine) -> None:
         super().__init__(position, scene)
         self.machine = machine
         self.hp = hp
