@@ -44,9 +44,11 @@ class StateMachine(ABC):
     def add_state(self, name):
         self._states[name] = name
         self._transitions[name] = []
+        return self
 
     def add_transition(self, from_state, to_state, condition_func):
         self._transitions[from_state].append(Transition(from_state, to_state, condition_func))
+        return self
 
     def tick(self):
         if self._state:
