@@ -2,7 +2,7 @@ import random
 from typing import Dict, List
 
 from src.common.point import Point
-from src.objects.agent import Agent
+from src.objects.agent.agent import Agent
 from src.objects.floor import Floor
 from src.objects.portal import Portal
 from src.objects.object import Object
