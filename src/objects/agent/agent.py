@@ -9,9 +9,8 @@ from src.common.enums import Direction
 from src.common.point import Point
 from src.objects.object import Object
 from src.common.serializable import Properties
+from src.objects.agent.stats_manager import StatsManager
 from src.actions.wait_for_code import WaitForCode
-
-AGENT_HP = 100
 
 
 class Agent(Object):
@@ -23,13 +22,21 @@ class Agent(Object):
     scene: 'Scene'
     walkable: bool
     items: list
-    hp: int
+    stats_manager: StatsManager
 
-    def __init__(self, scene: 'Scene', position: Point = Point(0, 0)) -> None:
+    def __init__(self, scene: 'Scene', position: Point = Point(0, 0), stats_manager=StatsManager()) -> None:
         super().__init__(position, scene)
         self.items = []
         self.wait_for_code: WaitForCode = WaitForCode(self.scene.runtime.interactive)
-        self.hp = AGENT_HP
+        self.stats_manager = stats_manager
+
+    @property
+    def hp(self):
+        return self.stats_manager.hp
+
+    @hp.setter
+    def hp(self, val):
+        self.stats_manager.hp = val
 
     def tick(self) -> None:
         """
