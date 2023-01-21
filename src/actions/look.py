@@ -8,7 +8,7 @@ from src.objects.object import Object
 
 class Look(Action):
     """
-    Simple looking action. Returns list of objects in set direction.
+    Simple looking action. Returns dictionary with objects names as keys, and ID's as values.
     """
     object: Object
 
@@ -21,4 +21,4 @@ class Look(Action):
     def execute(self) -> List[Object]:
         self.log()
         target_position: Point = self.object.properties.position + self.properties.direction.value
-        return [target.name for target in self.object.scene.get_objects_by_position(target_position)]
+        return {target.name: target.properties.id for target in self.object.scene.get_objects_by_position(target_position)}
