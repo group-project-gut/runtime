@@ -43,7 +43,7 @@ class Scene:
             Floor(self, point)
 
         # Portal(self, random.choice(points))
-        Bear(self, Point(1, 0))
+        Bear(self, Point(0, 1))
 
     def _generate_scene(self) -> None:
         """
@@ -103,18 +103,24 @@ class Scene:
         Returns True on successful `move` operation
         """
 
-        # Check if the destination is a `field` in the scene, and if it is -
-        # - it must be walkable
-        if not self.is_walkable_field(new_position):
-            return False
-
         previous_position = moved_object.properties.position
-        moved_object.free_field(previous_position)
-        if moved_object.occupy_field(new_position):
-            moved_object.properties.position = new_position
-        else:
-            moved_object.occupy_field(previous_position)
-            return False
+        old_fields =  moved_object.get_fields(previous_position)
+        new_fields = moved_object.get_fields(new_position)
+
+        # Check if all fields requested are `walkable`
+        for field in new_fields:
+            if not self.is_walkable_field(field):
+                return False
+
+        # Now we can free previous ones
+        for field in old_fields:
+            self._objects_position_map.get(field).remove(moved_object)
+
+        # ... and occupy new ones!
+        for field in new_fields:
+            self._objects_position_map.get(field).append(moved_object)
+
+        moved_object.properties.position = new_position
         return True
 
     def is_walkable_field(self, position: Point) -> bool:
@@ -141,7 +147,10 @@ class Scene:
         if self._objects_position_map.get(position) is None:
             self._objects_position_map[position] = []
 
-        new_object.occupy_field(position)
+        fields = new_object.get_fields(position)
+
+        for field in fields:
+            self._objects_position_map.get(field).append(new_object)
 
     def add_object_to_id_map(self, new_object: Object) -> None:
         """
