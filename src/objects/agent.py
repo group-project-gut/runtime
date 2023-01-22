@@ -1,6 +1,7 @@
 from src.common.exec_interrupt import MapExit
 from src.actions.use import Use
 from src.actions.move import Move
+from src.actions.look import Look
 from src.actions.nearby_objects import NearbyObjects
 # from src.actions.pick_up import PickUp
 from src.actions.wave import Wave
@@ -43,6 +44,7 @@ class Agent(Object):
 
         agent_builtins = {
             'move': lambda direction: Move(self, direction).execute(),
+            'look': lambda direction: Look(self, direction).execute(),
             'slash': lambda direction: Slash(self, direction).execute(),
             'wave': Wave(self).execute,
             'Direction': Direction,

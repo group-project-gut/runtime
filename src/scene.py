@@ -36,12 +36,13 @@ class Scene:
         """
         Small scene for tests
         """
-        points = [Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1), Point(0, 2), Point(1, 2)]
+        points = [Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1), Point(0, 2), Point(1, 2), Point(0, 3), Point(1, 3)]
 
         for point in points:
             Floor(self, point)
 
         # Portal(self, random.choice(points))
+        TrainingDummy(self, Point(0, 3))
         TrainingDummy(self, Point(1, 0))
 
     def _generate_scene(self) -> None:
