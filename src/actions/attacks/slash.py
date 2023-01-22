@@ -2,7 +2,6 @@ from src.common.enums import Direction
 from src.common.point import Point
 from src.actions.action import Action
 from src.actions.deal_dmg import DealDmg
-from src.common.serializable import Properties
 from src.objects.object import Object
 from src.objects.npcs.enemy import Enemy
 
@@ -13,8 +12,6 @@ class Slash(Action):
     """
     Simple action for attacking.
     """
-    base: str
-    properties: Properties
     object: Object
 
     def __init__(self, object: Object, direction: Direction) -> None:

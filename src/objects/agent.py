@@ -1,4 +1,3 @@
-from src.common.exec_interrupt import MapExit
 from src.actions.use import Use
 from src.actions.move import Move
 from src.actions.look import Look
@@ -9,7 +8,6 @@ from src.actions.attacks.slash import Slash
 from src.common.enums import Direction
 from src.common.point import Point
 from src.objects.object import Object
-from src.common.serializable import Properties
 from src.actions.wait_for_code import WaitForCode
 
 AGENT_HP = 100
@@ -19,10 +17,6 @@ class Agent(Object):
     """
     Simple agent existing in a `scene`.
     """
-    base: str
-    properties: Properties
-    scene: 'Scene'
-    walkable: bool
     items: list
     hp: int
 

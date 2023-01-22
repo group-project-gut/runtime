@@ -1,13 +1,10 @@
 from src.actions.action import Action
-from src.common.serializable import Properties
 
 
 class Wave(Action):
     """
     Simple action for playing an animation on frontend.
     """
-    base: str
-    properties: Properties
 
     def __init__(self, agent: 'Agent') -> None:
         super().__init__()

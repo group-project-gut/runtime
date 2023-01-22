@@ -1,5 +1,4 @@
 from src.actions.action import Action
-from src.common.serializable import Properties
 
 
 class WaitForCode(Action):
@@ -7,9 +6,7 @@ class WaitForCode(Action):
     Action blocking execution of the runtime until it reads
     message from `stdin` saying that the `code` was uploaded
     """
-    base: str
     interactive: bool
-    properties: Properties
 
     def __init__(self, interactive: bool) -> None:
         super().__init__()

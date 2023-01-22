@@ -4,7 +4,6 @@ from transitions import Machine
 
 from src.common.point import Point
 from src.objects.object import Object
-from src.common.serializable import Properties
 from src.actions.move import Move
 from src.actions.idle import Idle
 from src.common.enums import Direction
@@ -14,10 +13,6 @@ class NPC(Object):
     """
     NPC interface.
     """
-    base: str
-    properties: Properties
-    scene: 'Scene'
-    walkable: bool
     machine: Machine
     hp: int
 

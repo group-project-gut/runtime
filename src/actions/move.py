@@ -1,7 +1,6 @@
 from src.common.enums import Direction
 from src.common.point import Point
 from src.actions.action import Action
-from src.common.serializable import Properties
 from src.objects.object import Object
 
 
@@ -10,8 +9,6 @@ class Move(Action):
     Simple action for changing position of `Agent`. It does not log anything
     in case the movement was not possible(destination is not walkable etc).
     """
-    base: str
-    properties: Properties
     object: Object
 
     def __init__(self, object: Object, direction: Direction) -> None:
