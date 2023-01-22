@@ -25,13 +25,8 @@ class Object(Serializable):
         # Log creation of the `Object`
         print(self)
 
-    def occupy_field(self, position: Point) -> bool:
-        self.scene.get_objects_by_position(position).append(self)
-        return True
-
-    def free_field(self, position: Point) -> None:
-        self.scene.get_objects_by_position(position).remove(self)
-        return True
+    def get_fields(self, position: Point) -> list['Object']:
+        return [position]
 
     def tick(self) -> None:
         """
