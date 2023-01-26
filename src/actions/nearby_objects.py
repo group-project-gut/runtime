@@ -2,7 +2,7 @@ from src.actions.action import Action
 from src.common.point import Point
 from src.objects.interactive_object import InteractiveObject
 from src.objects.object import Object
-
+from typing import Optional
 
 class NearbyObjects(Action):
     """
@@ -27,7 +27,7 @@ class NearbyObjects(Action):
         for i in range(-self.range, self.range + 1):
             for j in range(-self.range, self.range + 1):
                 objects_on_field = self.object.scene.get_objects_by_position(
-                    self.object.properties.position.__add__(Point(i, j)))
+                    self.object.properties.position + Point(i, j))
                 if objects_on_field is None:
                     continue
 
