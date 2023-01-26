@@ -38,12 +38,15 @@ class Scene:
         """
         Small scene for tests
         """
-        points = [Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1), Point(0, 2), Point(1, 2)]
+        points = [Point(x,y) for x in range(-8,8) for y in range(-8,8)]
 
         for point in points:
             Floor(self, point)
 
-        # Portal(self, random.choice(points))
+        for i in range(random.randint(3,7)):
+            TrainingDummy(self, random.choice(points))
+
+        Portal(self, random.choice(points))
         Bear(self, Point(0, 1))
 
     def _generate_scene(self) -> None:
@@ -67,7 +70,7 @@ class Scene:
         for point in points:
             Floor(self, point)
 
-        Portal(self, Point(5,5))
+        Portal(self, random.choice(points))
         TrainingDummy(self, Point(1, 0))
 
     def run(self) -> None:
