@@ -1,3 +1,4 @@
+from src.actions.log import Log
 from src.common.exec_interrupt import MapExit
 from src.common.point import Point
 from src.objects.object import Object
@@ -18,6 +19,7 @@ class Portal(Object):
         self.walkable = True
 
     def on_collision(self, other) -> None:
+        Log(type="info", message="Loading next map...").execute()
         self.scene.runtime.next_scene.execute()
         # Stop execution flow of `exec`
         raise MapExit

@@ -1,5 +1,6 @@
 import random
 from typing import Dict, List
+from src.actions.log import Log
 
 from src.common.point import Point
 from src.objects.agent import Agent
@@ -66,7 +67,7 @@ class Scene:
         for point in points:
             Floor(self, point)
 
-        Portal(self, random.choice(points))
+        Portal(self, Point(5,5))
         TrainingDummy(self, Point(1, 0))
 
     def run(self) -> None:
@@ -78,7 +79,10 @@ class Scene:
         while spins < max_spins:
             spins += 1
             for scene_object in list(self._objects_id_map.values()):
-                scene_object.tick()
+                try:
+                    scene_object.tick()
+                except Exception as err:
+                    Log(type="error", message=str(err)).execute()
 
     def get_player(self) -> Agent:
         """
