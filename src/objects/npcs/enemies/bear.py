@@ -1,3 +1,4 @@
+from typing import List
 from enum import Enum
 
 from src.common.state_machine import StateMachine
@@ -19,11 +20,13 @@ class Bear(Enemy):
     def __init__(self, scene: 'Scene', position: Point) -> None:
         super().__init__(scene, position, HP, BearStateMachine(self))
 
-    def get_fields(self, position: Point) -> list['Object']:
-        return [position,
-                position + Point(0, 1),
-                position + Point(1, 1),
-                position + Point(1, 0)]
+    def occupied_fields(self, current_position: Point = None) -> List[Point]:
+        if not current_position:
+            current_position = self.properties.position
+        return [current_position,
+                current_position + Point(0, 1),
+                current_position + Point(1, 1),
+                current_position + Point(1, 0)]
 
     def tick(self) -> None:
         self.machine.tick()
