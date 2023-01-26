@@ -1,4 +1,4 @@
-def create_code_file(code: 'String') -> 'String':
+def create_code_file(code: str) -> str:
     '''
     Returns path to created file
     '''
