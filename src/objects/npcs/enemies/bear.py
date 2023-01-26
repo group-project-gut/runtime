@@ -32,20 +32,13 @@ class Bear(Enemy):
         self.machine.tick()
 
     def slam(self):
-        Slam(self, [self.properties.position + Direction.NORTH.value,
-                    self.properties.position + Direction.WEST.value,
-                    self.properties.position + Direction.SOUTH.value,
-                    self.properties.position + Direction.EAST.value]).execute()
+        Slam(self, self.fields_around()).execute()
 
     def prepare_to_slam(self):
         PrepareToSlam(self).execute()
 
     def is_there_agent_to_slam(self):
-        points_around = [self.properties.position + Direction.NORTH.value,
-                         self.properties.position + Direction.WEST.value,
-                         self.properties.position + Direction.SOUTH.value,
-                         self.properties.position + Direction.EAST.value]
-        for target_position in points_around:
+        for target_position in self.fields_around():
             if not self.scene._objects_position_map.get(target_position):
                 continue
             for target in self.scene.get_objects_by_position(target_position):
