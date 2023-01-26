@@ -9,7 +9,7 @@ from src.common.point import Point
 from src.actions.prepare_to_slam import PrepareToSlam
 from src.actions.attacks.slam import Slam
 
-HP = 100
+HP = 400
 
 
 class Bear(Enemy):
