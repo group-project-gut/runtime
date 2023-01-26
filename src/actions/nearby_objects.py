@@ -2,7 +2,7 @@ from src.actions.action import Action
 from src.common.point import Point
 from src.objects.interactive_object import InteractiveObject
 from src.objects.object import Object
-from typing import Optional
+
 
 class NearbyObjects(Action):
     """
