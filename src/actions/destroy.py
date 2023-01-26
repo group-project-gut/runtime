@@ -20,6 +20,6 @@ class Destroy(Action):
         self.object = object
 
     def execute(self) -> None:
-        self.object.free_field(self.object.properties.position)
+        self.object.scene.remove_object_from_occupied_fields(self.object)
         self.object.scene.remove_object_from_id_map(self.object)
         self.log()

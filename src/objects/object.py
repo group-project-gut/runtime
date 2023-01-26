@@ -1,3 +1,5 @@
+from typing import List
+
 from src.common.point import Point
 from src.common.serializable import Serializable, Properties
 
@@ -26,8 +28,10 @@ class Object(Serializable):
         # Log creation of the `Object`
         print(self)
 
-    def get_fields(self, position: Point) -> list['Object']:
-        return [position]
+    def occupied_fields(self, current_position: Point = None) -> List[Point]:
+        if not current_position:
+            current_position = self.properties.position
+        return [current_position]
 
     def tick(self) -> None:
         """
