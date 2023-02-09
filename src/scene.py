@@ -7,6 +7,7 @@ from src.objects.floor import Floor
 from src.objects.portal import Portal
 from src.objects.object import Object
 from src.objects.npcs.enemies.training_dummy import TrainingDummy
+from src.objects.npcs.enemies.bear import Bear
 
 
 class Scene:
@@ -43,7 +44,7 @@ class Scene:
 
         # Portal(self, random.choice(points))
         TrainingDummy(self, Point(0, 3))
-        TrainingDummy(self, Point(1, 0))
+        Bear(self, Point(0, 1))
 
     def _generate_scene(self) -> None:
         """
@@ -98,23 +99,33 @@ class Scene:
     def get_object_by_id(self, id) -> Object:
         return self._objects_id_map[id]
 
+    def remove_object_from_occupied_fields(self, object: Object):
+        for field in object.occupied_fields():
+            self._objects_position_map.get(field).remove(object)
+
+    def occupy_fields(self, object: Object, fields: Point = None):
+        if not fields:
+            fields = object.occupied_fields()
+        for field in fields:
+            self._objects_position_map.get(field).append(object)
+
     def move_object(self, moved_object: Object, new_position: Point) -> bool:
         """
         Returns True on successful `move` operation
         """
 
-        # Check if the destination is a `field` in the scene, and if it is -
-        # - it must be walkable
-        if not self.is_walkable_field(new_position):
-            return False
+        # Check if all fields requested are `walkable`
+        for field in moved_object.occupied_fields(new_position):
+            if not self.is_walkable_field(field):
+                return False
 
-        previous_position = moved_object.properties.position
-        moved_object.free_field(previous_position)
-        if moved_object.occupy_field(new_position):
-            moved_object.properties.position = new_position
-        else:
-            moved_object.occupy_field(previous_position)
-            return False
+        # Now we can free previous fields
+        self.remove_object_from_occupied_fields(moved_object)
+
+        # ... and occupy new ones!
+        moved_object.properties.position = new_position
+        self.occupy_fields(moved_object)
+
         return True
 
     def is_walkable_field(self, position: Point) -> bool:
@@ -141,7 +152,8 @@ class Scene:
         if self._objects_position_map.get(position) is None:
             self._objects_position_map[position] = []
 
-        new_object.occupy_field(position)
+        for field in new_object.occupied_fields():
+            self._objects_position_map.get(field).append(new_object)
 
     def add_object_to_id_map(self, new_object: Object) -> None:
         """

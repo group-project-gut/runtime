@@ -1,4 +1,7 @@
+from typing import List
+
 from src.common.point import Point
+from src.common.enums import Direction
 from src.common.serializable import Serializable
 
 
@@ -25,13 +28,21 @@ class Object(Serializable):
         # Log creation of the `Object`
         print(self)
 
-    def occupy_field(self, position: Point) -> bool:
-        self.scene.get_objects_by_position(position).append(self)
-        return True
+    def occupied_fields(self, current_position: Point = None) -> List[Point]:
+        if not current_position:
+            current_position = self.properties.position
+        return [current_position]
 
-    def free_field(self, position: Point) -> None:
-        self.scene.get_objects_by_position(position).remove(self)
-        return True
+    def fields_around(self) -> List[Point]:
+        fields = []
+        for field in self.occupied_fields():
+            points_around_field = [field + Direction.NORTH.value,
+                                   field + Direction.WEST.value,
+                                   field + Direction.SOUTH.value,
+                                   field + Direction.EAST.value]
+            # append all points around that aren't in self.occupied_fields()
+            fields.extend(list(filter(lambda point: point not in self.occupied_fields(), points_around_field)))
+        return fields
 
     def tick(self) -> None:
         """
